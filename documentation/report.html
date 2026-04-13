@@ -1,0 +1,1345 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Travel Planner Smart Guide — Project Report</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@400;600;700;800&display=swap');
+
+        :root {
+            --primary: #2563eb;
+            --primary-light: #dbeafe;
+            --accent: #d946ef;
+            --dark: #1e293b;
+            --gray: #64748b;
+            --light: #f8fafc;
+            --border: #e2e8f0;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', system-ui, sans-serif;
+            color: var(--dark);
+            background: var(--light);
+            line-height: 1.7;
+        }
+
+        /* Cover Page */
+        .cover {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+            color: white;
+            padding: 3rem;
+            page-break-after: always;
+        }
+
+        .cover h1 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+        }
+
+        .cover .subtitle {
+            font-size: 1.5rem;
+            font-weight: 300;
+            opacity: 0.9;
+            margin-bottom: 3rem;
+        }
+
+        .cover .info-box {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            border-radius: 1rem;
+            padding: 2rem 3rem;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            max-width: 500px;
+        }
+
+        .cover .info-box p {
+            margin: 0.5rem 0;
+            font-size: 1rem;
+        }
+
+        /* Main Container */
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        /* Section Styles */
+        .section {
+            margin: 3rem 0;
+            page-break-inside: avoid;
+        }
+
+        .section h2 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary);
+            border-bottom: 3px solid var(--primary);
+            padding-bottom: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .section h3 {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin: 1.5rem 0 0.75rem;
+            color: var(--dark);
+        }
+
+        .section h4 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin: 1rem 0 0.5rem;
+            color: var(--gray);
+        }
+
+        .section p {
+            margin: 0.75rem 0;
+            color: #475569;
+        }
+
+        .section ul,
+        .section ol {
+            margin: 0.75rem 0 0.75rem 1.5rem;
+            color: #475569;
+        }
+
+        .section li {
+            margin: 0.4rem 0;
+        }
+
+        /* Table of Contents */
+        .toc a {
+            display: block;
+            padding: 0.5rem 0;
+            text-decoration: none;
+            color: var(--primary);
+            border-bottom: 1px dashed var(--border);
+            transition: color 0.2s;
+        }
+
+        .toc a:hover {
+            color: var(--accent);
+        }
+
+        /* Code blocks */
+        pre {
+            background: #1e293b;
+            color: #e2e8f0;
+            padding: 1.5rem;
+            border-radius: 0.75rem;
+            overflow-x: auto;
+            font-size: 0.85rem;
+            line-height: 1.6;
+            margin: 1rem 0;
+        }
+
+        code {
+            background: #f1f5f9;
+            padding: 0.15rem 0.4rem;
+            border-radius: 0.25rem;
+            font-size: 0.9rem;
+            color: #be185d;
+        }
+
+        pre code {
+            background: none;
+            padding: 0;
+            color: inherit;
+        }
+
+        /* Tables */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+            font-size: 0.9rem;
+        }
+
+        th,
+        td {
+            padding: 0.75rem 1rem;
+            text-align: left;
+            border: 1px solid var(--border);
+        }
+
+        th {
+            background: var(--primary);
+            color: white;
+            font-weight: 600;
+        }
+
+        tr:nth-child(even) {
+            background: #f8fafc;
+        }
+
+        tr:hover {
+            background: #f0f4ff;
+        }
+
+        /* Diagrams */
+        .diagram-container {
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 1rem;
+            padding: 2rem;
+            margin: 1.5rem 0;
+            text-align: center;
+        }
+
+        .diagram-container svg {
+            max-width: 100%;
+        }
+
+        .diagram-title {
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 1rem;
+            font-size: 1rem;
+        }
+
+        /* ASCII Diagrams */
+        .ascii-diagram {
+            background: #1e293b;
+            color: #60a5fa;
+            padding: 1.5rem;
+            border-radius: 0.75rem;
+            font-family: 'Courier New', monospace;
+            font-size: 0.8rem;
+            line-height: 1.4;
+            overflow-x: auto;
+            white-space: pre;
+            margin: 1rem 0;
+        }
+
+        /* Card grid */
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+
+        .card {
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+        }
+
+        .card h4 {
+            color: var(--primary);
+            margin: 0 0 0.5rem;
+        }
+
+        .card p {
+            font-size: 0.9rem;
+        }
+
+        /* Badges */
+        .badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 1rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin: 0.15rem;
+        }
+
+        .badge-blue {
+            background: #dbeafe;
+            color: #1d4ed8;
+        }
+
+        .badge-green {
+            background: #dcfce7;
+            color: #16a34a;
+        }
+
+        .badge-purple {
+            background: #f3e8ff;
+            color: #7c3aed;
+        }
+
+        .badge-orange {
+            background: #ffedd5;
+            color: #ea580c;
+        }
+
+        /* Print styles */
+        @media print {
+            .cover {
+                min-height: auto;
+                page-break-after: always;
+            }
+
+            .section {
+                page-break-inside: avoid;
+            }
+
+            body {
+                font-size: 11pt;
+            }
+        }
+
+        /* Flow diagram */
+        .flow-box {
+            display: inline-block;
+            border: 2px solid var(--primary);
+            border-radius: 0.5rem;
+            padding: 0.5rem 1rem;
+            margin: 0.25rem;
+            font-size: 0.85rem;
+            font-weight: 500;
+            background: var(--primary-light);
+        }
+
+        .flow-arrow {
+            display: inline-block;
+            color: var(--primary);
+            font-size: 1.2rem;
+            margin: 0 0.25rem;
+            vertical-align: middle;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- ========== COVER PAGE ========== -->
+    <div class="cover">
+        <div style="font-size: 4rem; margin-bottom: 1rem;">✈️</div>
+        <h1>AI Travel Planner<br>Smart Guide</h1>
+        <p class="subtitle">Full-Stack AI-Powered Travel Planning Application</p>
+        <div class="info-box">
+            <p><strong>Project Type:</strong> Web Application</p>
+            <p><strong>Technology:</strong> React.js + Flask + MongoDB + NVIDIA NIM API</p>
+            <p><strong>Version:</strong> 1.0.0</p>
+            <p><strong>Date:</strong> March 2026</p>
+        </div>
+    </div>
+
+    <div class="container">
+
+        <!-- ========== TABLE OF CONTENTS ========== -->
+        <div class="section">
+            <h2>Table of Contents</h2>
+            <div class="toc">
+                <a href="#abstract">1. Abstract</a>
+                <a href="#introduction">2. Introduction</a>
+                <a href="#objectives">3. Objectives</a>
+                <a href="#tech-stack">4. Technology Stack</a>
+                <a href="#architecture">5. System Architecture</a>
+                <a href="#database">6. Database Design</a>
+                <a href="#modules">7. Module Description</a>
+                <a href="#ai-integration">8. AI Integration (NVIDIA NIM)</a>
+                <a href="#api-design">9. API Design</a>
+                <a href="#ui-design">10. UI/UX Design</a>
+                <a href="#security">11. Security Implementation</a>
+                <a href="#testing">12. Testing & Verification</a>
+                <a href="#setup">13. Installation & Setup Guide</a>
+                <a href="#future">14. Future Enhancements</a>
+                <a href="#conclusion">15. Conclusion</a>
+                <a href="#references">16. References</a>
+            </div>
+        </div>
+
+        <!-- ========== 1. ABSTRACT ========== -->
+        <div class="section" id="abstract">
+            <h2>1. Abstract</h2>
+            <p>
+                The <strong>AI Travel Planner Smart Guide</strong> is a full-stack web application that leverages
+                NVIDIA's NIM API to generate personalized, day-wise travel itineraries. The system features a
+                React.js frontend styled with Tailwind CSS, a Flask REST API backend, and MongoDB for data persistence.
+                Users can input their budget, travel preferences, duration, and interests, after which the AI generates
+                a comprehensive itinerary with detailed activity schedules, cost breakdowns, meal suggestions,
+                accommodation
+                recommendations, and safety tips. The platform also includes real-time weather information via
+                OpenWeatherMap API,
+                a smart recommendation engine, user reviews, an admin dashboard with analytics, and PDF export
+                capabilities.
+            </p>
+            <p>
+                <strong>Keywords:</strong>
+                <span class="badge badge-blue">Artificial Intelligence</span>
+                <span class="badge badge-green">Travel Planning</span>
+                <span class="badge badge-purple">NVIDIA NIM API</span>
+                <span class="badge badge-orange">Full-Stack Web App</span>
+                <span class="badge badge-blue">React.js</span>
+                <span class="badge badge-green">Flask</span>
+                <span class="badge badge-purple">Llama 3.1 405B</span>
+            </p>
+        </div>
+
+        <!-- ========== 2. INTRODUCTION ========== -->
+        <div class="section" id="introduction">
+            <h2>2. Introduction</h2>
+            <h3>2.1 Background</h3>
+            <p>
+                Travel planning is a complex process that requires consideration of multiple factors — budget
+                constraints,
+                interests, safety, weather conditions, local attractions, and transportation logistics. Traditional
+                travel
+                planning either relies on expensive travel agents or time-consuming manual research across multiple
+                platforms.
+            </p>
+            <h3>2.2 Problem Statement</h3>
+            <p>
+                Existing travel planning tools lack intelligent personalization and require significant manual effort.
+                There is a need for an automated system that can understand individual traveler preferences and generate
+                comprehensive, budget-aware itineraries with minimal user effort.
+            </p>
+            <h3>2.3 Proposed Solution</h3>
+            <p>
+                The AI Travel Planner Smart Guide solves this by integrating NVIDIA's NIM API with a rich destination
+                database, real-time weather data, and user reviews to deliver personalized, actionable travel plans
+                within seconds.
+            </p>
+        </div>
+
+        <!-- ========== 3. OBJECTIVES ========== -->
+        <div class="section" id="objectives">
+            <h2>3. Objectives</h2>
+            <ol>
+                <li>Develop a modern, responsive web application for intelligent travel planning</li>
+                <li>Integrate NVIDIA NIM API for automated itinerary generation with structured JSON output</li>
+                <li>Implement JWT-based authentication with admin and user roles</li>
+                <li>Design an optimized MongoDB database with GridFS for image storage</li>
+                <li>Build a recommendation engine using tag-based and budget similarity matching</li>
+                <li>Integrate real-time weather data with smart travel advice</li>
+                <li>Provide PDF export functionality for generated itineraries</li>
+                <li>Create an admin dashboard with analytics on searches, popular tags, and budget trends</li>
+                <li>Ensure production-level security with bcrypt hashing, input validation, and CORS protection</li>
+            </ol>
+        </div>
+
+        <!-- ========== 4. TECH STACK ========== -->
+        <div class="section" id="tech-stack">
+            <h2>4. Technology Stack</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Layer</th>
+                        <th>Technology</th>
+                        <th>Purpose</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Frontend</td>
+                        <td>React.js 18.3</td>
+                        <td>UI framework with functional components and hooks</td>
+                    </tr>
+                    <tr>
+                        <td>Styling</td>
+                        <td>Tailwind CSS 3.4</td>
+                        <td>Utility-first CSS with custom design tokens</td>
+                    </tr>
+                    <tr>
+                        <td>Animations</td>
+                        <td>Framer Motion 11</td>
+                        <td>Smooth page transitions and micro-animations</td>
+                    </tr>
+                    <tr>
+                        <td>HTTP Client</td>
+                        <td>Axios 1.7</td>
+                        <td>API communication with JWT interceptors</td>
+                    </tr>
+                    <tr>
+                        <td>Routing</td>
+                        <td>React Router 6</td>
+                        <td>Client-side routing with protected routes</td>
+                    </tr>
+                    <tr>
+                        <td>Build Tool</td>
+                        <td>Vite 6</td>
+                        <td>Fast build and hot module replacement</td>
+                    </tr>
+                    <tr>
+                        <td>Backend</td>
+                        <td>Python Flask 3.1</td>
+                        <td>REST API server</td>
+                    </tr>
+                    <tr>
+                        <td>Database</td>
+                        <td>MongoDB + PyMongo</td>
+                        <td>NoSQL document store with aggregation pipelines</td>
+                    </tr>
+                    <tr>
+                        <td>Image Storage</td>
+                        <td>MongoDB GridFS</td>
+                        <td>Binary file storage for destination/review images</td>
+                    </tr>
+                    <tr>
+                        <td>AI Engine</td>
+                        <td>NVIDIA NIM API (Llama 3.1 405B)</td>
+                        <td>Itinerary generation and destination suggestions</td>
+                    </tr>
+                    <tr>
+                        <td>Weather API</td>
+                        <td>OpenWeatherMap</td>
+                        <td>Real-time weather data with smart advice</td>
+                    </tr>
+                    <tr>
+                        <td>Auth</td>
+                        <td>JWT + bcrypt</td>
+                        <td>Stateless authentication and password hashing</td>
+                    </tr>
+                    <tr>
+                        <td>PDF Generation</td>
+                        <td>ReportLab 4.2</td>
+                        <td>Server-side PDF document creation</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- ========== 5. ARCHITECTURE ========== -->
+        <div class="section" id="architecture">
+            <h2>5. System Architecture</h2>
+
+            <h3>5.1 High-Level Architecture Diagram</h3>
+            <div class="ascii-diagram">
+                ┌───────────────────────────────────────────────────────────────────────┐
+                │ CLIENT (Browser) │
+                │ ┌─────────────────────────────────────────────────────────────────┐ │
+                │ │ React.js Frontend │ │
+                │ │ ┌──────────┐ ┌──────────┐ ┌──────────┐ ┌──────────────────┐ │ │
+                │ │ │ Home │ │ Explore │ │Plan Trip │ │ Admin Dashboard │ │ │
+                │ │ └────┬─────┘ └────┬─────┘ └────┬─────┘ └────────┬─────────┘ │ │
+                │ │ └─────────────┴────────────┴────────────────┘ │ │
+                │ │ │ Axios (JWT) │ │
+                │ └──────────────────────┼──────────────────────────────────────────┘ │
+                └─────────────────────────┼───────────────────────────────────────────┘
+                │ HTTP REST API
+                ┌─────────────────────────┼───────────────────────────────────────────┐
+                │ Flask Backend (Python) │
+                │ ┌──────────┐ ┌─────────┴──────────┐ ┌────────────────┐ │
+                │ │ Auth │ │ Route Blueprints │ │ Middleware │ │
+                │ │ Utils │ │ /api/auth │ │ CORS │ │
+                │ │ JWT │ │ /api/destinations │ │ JWT Verify │ │
+                │ │ bcrypt │ │ /api/reviews │ │ Input Valid. │ │
+                │ └──────────┘ │ /api/itinerary │ └────────────────┘ │
+                │ │ /api/weather │ │
+                │ │ /api/admin │ │
+                │ └─────────┬──────────┘ │
+                │ │ │
+                │ ┌──────────────────────┼──────────────────────────────────────┐ │
+                │ │ Service Layer │ │
+                │ │ ┌─────────────┐ ┌──────────────┐ ┌───────────────────┐ │ │
+                │ │ │ NVIDIA NIM │ │ Weather Svc │ │ Recommendation │ │ │
+                │ │ │ Service │ │ │ │ Engine │ │ │
+                │ │ └──────┬──────┘ └──────┬───────┘ └───────────────────┘ │ │
+                │ │ │ │ │ │
+                │ └─────────┼───────────────┼───────────────────────────────────┘ │
+                │ │ │ │
+                └────────────┼───────────────┼────────────────────────────────────────┘
+                │ │
+                ┌────────┴────┐ ┌───────┴────────┐ ┌───────────────────────┐
+                │ NVIDIA NIM │ │ OpenWeatherMap │ │ MongoDB │
+                │ API │ │ API │ │ ┌─────────────────┐ │
+                └─────────────┘ └────────────────┘ │ │ destinations │ │
+                │ │ reviews │ │
+                │ │ itineraries │ │
+                │ │ analytics │ │
+                │ │ GridFS (imgs) │ │
+                │ └─────────────────┘ │
+                └───────────────────────┘
+            </div>
+
+            <h3>5.2 Application Flow Diagram</h3>
+            <div class="diagram-container">
+                <div class="diagram-title">User Travel Planning Flow</div>
+                <div style="text-align: center;">
+                    <span class="flow-box">User Opens App</span>
+                    <span class="flow-arrow">→</span>
+                    <span class="flow-box">Register / Login</span>
+                    <span class="flow-arrow">→</span>
+                    <span class="flow-box">Browse Destinations</span>
+                    <br><br>
+                    <span class="flow-arrow">↓</span>
+                    <br><br>
+                    <span class="flow-box">Fill Travel Form</span>
+                    <span class="flow-arrow">→</span>
+                    <span class="flow-box">Gemini AI Processes</span>
+                    <span class="flow-arrow">→</span>
+                    <span class="flow-box">View Itinerary</span>
+                    <br><br>
+                    <span class="flow-arrow">↓</span>
+                    <br><br>
+                    <span class="flow-box">Download PDF</span>
+                    <span class="flow-arrow">&nbsp;&nbsp;</span>
+                    <span class="flow-box">Write Review</span>
+                    <span class="flow-arrow">&nbsp;&nbsp;</span>
+                    <span class="flow-box">Save History</span>
+                </div>
+            </div>
+
+            <h3>5.3 Folder Structure</h3>
+            <pre><code>AI travel planner/
+├── backend/
+│   ├── app.py                  # Flask entry point
+│   ├── config.py               # Environment configuration
+│   ├── requirements.txt        # Python dependencies
+│   ├── .env                    # API keys & secrets
+│   ├── models/
+│   │   ├── user.py             # User schema & operations
+│   │   ├── destination.py      # Destination CRUD
+│   │   ├── review.py           # Review with aggregation
+│   │   ├── itinerary.py        # Saved AI itineraries
+│   │   └── analytics.py        # Event logging
+│   ├── routes/
+│   │   ├── auth.py             # Register, Login, Profile
+│   │   ├── destinations.py     # CRUD + Image Upload
+│   │   ├── reviews.py          # Reviews + Moderation
+│   │   ├── itinerary.py        # AI Generate + PDF
+│   │   ├── weather.py          # Weather endpoint
+│   │   └── admin.py            # Dashboard & Analytics
+│   ├── services/
+│   │   ├── nvidia_service.py   # NVIDIA NIM AI integration
+│   │   ├── weather_service.py  # OpenWeatherMap API
+│   │   ├── recommendation.py   # Similarity matching
+│   │   └── gridfs_service.py   # Image storage
+│   └── utils/
+│       ├── auth_utils.py       # JWT & bcrypt helpers
+│       └── validators.py       # Input validation
+├── frontend/
+│   ├── src/
+│   │   ├── components/         # Reusable UI components
+│   │   ├── pages/              # Route-level pages
+│   │   ├── services/api.js     # Axios API service
+│   │   ├── context/            # Auth state management
+│   │   ├── App.jsx             # Main router
+│   │   ├── main.jsx            # Entry point
+│   │   └── index.css           # Tailwind + custom styles
+│   ├── index.html
+│   ├── package.json
+│   ├── vite.config.js
+│   ├── tailwind.config.js
+│   └── postcss.config.js
+└── documentation/
+    └── report.html             # This document</code></pre>
+        </div>
+
+        <!-- ========== 6. DATABASE ========== -->
+        <div class="section" id="database">
+            <h2>6. Database Design</h2>
+
+            <h3>6.1 Entity-Relationship Diagram</h3>
+            <div class="ascii-diagram">
+                ┌──────────────┐ ┌──────────────────┐ ┌──────────────┐
+                │ USERS │ │ DESTINATIONS │ │ REVIEWS │
+                ├──────────────┤ ├──────────────────┤ ├──────────────┤
+                │ _id (PK) │──┐ │ _id (PK) │──┐ │ _id (PK) │
+                │ name │ │ │ name │ │ │ user_id (FK) │
+                │ email (UQ) │ │ │ city │ │ │ dest_id (FK) │
+                │ password │ │ │ country │ │ │ rating (1-5) │
+                │ role │ │ │ description │ │ │ comment │
+                │ created_at │ │ │ budget_min │ │ │ image_id │
+                └──────────────┘ │ │ budget_max │ │ │ created_at │
+                │ │ best_season │ │ └──────────────┘
+                │ │ nearby_hotels[] │ │ │
+                │ │ nearby_attr[] │ │ │
+                │ │ travel_tips[] │ │ │
+                │ │ tags[] │ │ │
+                │ │ image_ids[] │ │ │
+                │ │ coordinates │ │ │
+                │ │ created_at │ │ ┌─────┴────────┐
+                │ └──────────────────┘ │ │ GridFS │
+                │ │ │ (Images) │
+                ┌──────────────┐ │ ┌──────────────────┐ │ │ fs.files │
+                │ ITINERARIES │ │ │ ANALYTICS │ │ │ fs.chunks │
+                ├──────────────┤ │ ├──────────────────┤ │ └──────────────┘
+                │ _id (PK) │ │ │ _id (PK) │ │
+                │ user_id (FK)─┼──┘ │ event_type │ │
+                │ dest_id (FK)─┼───────┤ data {} │──┘
+                │ plan_data {} │ │ user_id (FK) │
+                │ form_input{} │ │ timestamp │
+                │ created_at │ └──────────────────┘
+                └──────────────┘
+            </div>
+
+            <h3>6.2 Collection Schemas</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Collection</th>
+                        <th>Key Fields</th>
+                        <th>Indexes</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>users</code></td>
+                        <td>name, email, password, role, created_at</td>
+                        <td>email (unique)</td>
+                    </tr>
+                    <tr>
+                        <td><code>destinations</code></td>
+                        <td>name, city, country, description, budget_min/max, best_season, nearby_hotels[],
+                            nearby_attractions[], travel_tips[], tags[], image_ids[], coordinates</td>
+                        <td>text index (name, city, country, tags)</td>
+                    </tr>
+                    <tr>
+                        <td><code>reviews</code></td>
+                        <td>user_id, destination_id, rating, comment, image_id, created_at</td>
+                        <td>destination_id, user_id</td>
+                    </tr>
+                    <tr>
+                        <td><code>itineraries</code></td>
+                        <td>user_id, destination_id, plan_data (full AI response), form_input, created_at</td>
+                        <td>user_id</td>
+                    </tr>
+                    <tr>
+                        <td><code>analytics</code></td>
+                        <td>event_type, data, user_id, timestamp</td>
+                        <td>event_type, timestamp</td>
+                    </tr>
+                    <tr>
+                        <td><code>fs.files / fs.chunks</code></td>
+                        <td>GridFS binary storage for images</td>
+                        <td>files_id (auto)</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- ========== 7. MODULES ========== -->
+        <div class="section" id="modules">
+            <h2>7. Module Description</h2>
+
+            <div class="card-grid">
+                <div class="card">
+                    <h4>🔐 Authentication Module</h4>
+                    <p>JWT-based auth with bcrypt password hashing. Supports user registration, login, profile
+                        management, and role-based access (user/admin).</p>
+                </div>
+                <div class="card">
+                    <h4>🗺️ Destination Management</h4>
+                    <p>Full CRUD for destinations with multi-image upload via GridFS. Supports text search, tag
+                        filtering, and budget-based queries.</p>
+                </div>
+                <div class="card">
+                    <h4>🤖 AI Itinerary Engine</h4>
+                    <p>Integrates with NVIDIA NIM API to generate structured day-wise itineraries with cost
+                        breakdowns, hotel recommendations, and safety tips.</p>
+                </div>
+                <div class="card">
+                    <h4>🌤️ Weather Module</h4>
+                    <p>Fetches real-time weather via OpenWeatherMap API with smart travel advice based on temperature,
+                        humidity, and conditions.</p>
+                </div>
+                <div class="card">
+                    <h4>⭐ Reviews System</h4>
+                    <p>Users rate and review destinations. Supports image upload. Admins can moderate (delete)
+                        inappropriate reviews.</p>
+                </div>
+                <div class="card">
+                    <h4>🎯 Recommendation Engine</h4>
+                    <p>Suggests similar destinations using tag overlap and budget range similarity. Provides
+                        personalized recommendations based on user interests.</p>
+                </div>
+                <div class="card">
+                    <h4>📊 Analytics Dashboard</h4>
+                    <p>Admin analytics showing most searched destinations, popular travel types, average budget trends,
+                        and platform statistics.</p>
+                </div>
+                <div class="card">
+                    <h4>📄 PDF Export</h4>
+                    <p>Server-side PDF generation using ReportLab. Produces formatted itinerary documents with
+                        activities, costs, meals, and tips.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- ========== 8. AI INTEGRATION ========== -->
+        <div class="section" id="ai-integration">
+            <h2>8. AI Integration (NVIDIA NIM)</h2>
+
+            <h3>8.1 Prompt Engineering Strategy</h3>
+            <p>The system uses structured prompt engineering to ensure consistent, parseable JSON responses from NVIDIA
+                NIM AI:</p>
+            <ol>
+                <li><strong>Context Injection:</strong> Destination data from MongoDB is included in the prompt
+                    (attractions, hotels, tips, tags)</li>
+                <li><strong>User Preferences:</strong> Budget, travel type, duration, interests, transport/stay/food
+                    preferences</li>
+                <li><strong>Strict JSON Schema:</strong> The prompt specifies the exact JSON structure Gemini must
+                    return</li>
+                <li><strong>Fallback Handling:</strong> Response cleaning removes markdown code fences before JSON
+                    parsing</li>
+            </ol>
+
+            <h3>8.2 AI Response Schema</h3>
+            <pre><code>{
+  "destination_name": "Paris",
+  "trip_summary": "A romantic 5-day Paris experience...",
+  "total_estimated_cost": 2500,
+  "budget_status": "within_budget",
+  "seasonal_alert": "",
+  "days": [
+    {
+      "day": 1,
+      "title": "Arrival & Eiffel Tower",
+      "activities": [
+        {
+          "time": "10:00 AM",
+          "activity": "Visit Eiffel Tower",
+          "description": "Climb to the summit...",
+          "location": "Champ de Mars",
+          "estimated_cost": 26,
+          "tips": "Book tickets online"
+        }
+      ],
+      "meals": [...],
+      "accommodation": {...},
+      "transport": {...},
+      "daily_total": 350
+    }
+  ],
+  "must_visit_places": [...],
+  "food_suggestions": [...],
+  "safety_tips": [...]
+}</code></pre>
+
+            <h3>8.3 AI Flow Diagram</h3>
+            <div class="diagram-container">
+                <div class="diagram-title">Itinerary Generation Pipeline</div>
+                <div>
+                    <span class="flow-box">User submits form</span>
+                    <span class="flow-arrow">→</span>
+                    <span class="flow-box">Flask fetches destination from MongoDB</span>
+                    <br><br>
+                    <span class="flow-arrow">↓</span>
+                    <br><br>
+                    <span class="flow-box">Build structured prompt</span>
+                    <span class="flow-arrow">→</span>
+                    <span class="flow-box">Send to Gemini API</span>
+                    <span class="flow-arrow">→</span>
+                    <span class="flow-box">Parse JSON response</span>
+                    <br><br>
+                    <span class="flow-arrow">↓</span>
+                    <br><br>
+                    <span class="flow-box">Save to MongoDB</span>
+                    <span class="flow-arrow">→</span>
+                    <span class="flow-box">Return to React</span>
+                    <span class="flow-arrow">→</span>
+                    <span class="flow-box">Render beautiful UI</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- ========== 9. API DESIGN ========== -->
+        <div class="section" id="api-design">
+            <h2>9. API Design</h2>
+            <p>All endpoints are prefixed with <code>/api</code>. Protected routes require a <code>Bearer</code> JWT
+                token.</p>
+
+            <h3>Authentication Endpoints</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Method</th>
+                        <th>Endpoint</th>
+                        <th>Auth</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>POST</td>
+                        <td>/api/auth/register</td>
+                        <td>—</td>
+                        <td>Register new user</td>
+                    </tr>
+                    <tr>
+                        <td>POST</td>
+                        <td>/api/auth/login</td>
+                        <td>—</td>
+                        <td>Login, returns JWT</td>
+                    </tr>
+                    <tr>
+                        <td>GET</td>
+                        <td>/api/auth/profile</td>
+                        <td>User</td>
+                        <td>Get current user profile</td>
+                    </tr>
+                    <tr>
+                        <td>PUT</td>
+                        <td>/api/auth/profile</td>
+                        <td>User</td>
+                        <td>Update profile</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>Destination Endpoints</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Method</th>
+                        <th>Endpoint</th>
+                        <th>Auth</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>GET</td>
+                        <td>/api/destinations/</td>
+                        <td>—</td>
+                        <td>List with search, filter, pagination</td>
+                    </tr>
+                    <tr>
+                        <td>GET</td>
+                        <td>/api/destinations/all</td>
+                        <td>—</td>
+                        <td>All destinations (dropdown)</td>
+                    </tr>
+                    <tr>
+                        <td>GET</td>
+                        <td>/api/destinations/:id</td>
+                        <td>—</td>
+                        <td>Get single destination</td>
+                    </tr>
+                    <tr>
+                        <td>POST</td>
+                        <td>/api/destinations/</td>
+                        <td>Admin</td>
+                        <td>Create with images</td>
+                    </tr>
+                    <tr>
+                        <td>PUT</td>
+                        <td>/api/destinations/:id</td>
+                        <td>Admin</td>
+                        <td>Update destination</td>
+                    </tr>
+                    <tr>
+                        <td>DELETE</td>
+                        <td>/api/destinations/:id</td>
+                        <td>Admin</td>
+                        <td>Delete destination</td>
+                    </tr>
+                    <tr>
+                        <td>GET</td>
+                        <td>/api/destinations/:id/similar</td>
+                        <td>—</td>
+                        <td>Get recommendations</td>
+                    </tr>
+                    <tr>
+                        <td>GET</td>
+                        <td>/api/destinations/image/:id</td>
+                        <td>—</td>
+                        <td>Retrieve GridFS image</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>Itinerary Endpoints</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Method</th>
+                        <th>Endpoint</th>
+                        <th>Auth</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>POST</td>
+                        <td>/api/itinerary/generate</td>
+                        <td>User</td>
+                        <td>Generate AI itinerary</td>
+                    </tr>
+                    <tr>
+                        <td>POST</td>
+                        <td>/api/itinerary/suggest</td>
+                        <td>User</td>
+                        <td>AI destination suggestions</td>
+                    </tr>
+                    <tr>
+                        <td>GET</td>
+                        <td>/api/itinerary/history</td>
+                        <td>User</td>
+                        <td>User's saved itineraries</td>
+                    </tr>
+                    <tr>
+                        <td>GET</td>
+                        <td>/api/itinerary/:id</td>
+                        <td>User</td>
+                        <td>Get specific itinerary</td>
+                    </tr>
+                    <tr>
+                        <td>GET</td>
+                        <td>/api/itinerary/:id/pdf</td>
+                        <td>User</td>
+                        <td>Download as PDF</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>Other Endpoints</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Method</th>
+                        <th>Endpoint</th>
+                        <th>Auth</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>GET</td>
+                        <td>/api/weather/?city=X</td>
+                        <td>—</td>
+                        <td>Real-time weather</td>
+                    </tr>
+                    <tr>
+                        <td>GET</td>
+                        <td>/api/reviews/destination/:id</td>
+                        <td>—</td>
+                        <td>Destination reviews</td>
+                    </tr>
+                    <tr>
+                        <td>POST</td>
+                        <td>/api/reviews/</td>
+                        <td>User</td>
+                        <td>Submit review</td>
+                    </tr>
+                    <tr>
+                        <td>GET</td>
+                        <td>/api/admin/stats</td>
+                        <td>Admin</td>
+                        <td>Dashboard statistics</td>
+                    </tr>
+                    <tr>
+                        <td>GET</td>
+                        <td>/api/admin/analytics/searches</td>
+                        <td>Admin</td>
+                        <td>Top searches</td>
+                    </tr>
+                    <tr>
+                        <td>GET</td>
+                        <td>/api/admin/analytics/tags</td>
+                        <td>Admin</td>
+                        <td>Popular tags</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- ========== 10. UI DESIGN ========== -->
+        <div class="section" id="ui-design">
+            <h2>10. UI/UX Design</h2>
+
+            <h3>10.1 Design Principles</h3>
+            <ul>
+                <li><strong>Glassmorphism:</strong> Semi-transparent cards with backdrop blur for a premium feel</li>
+                <li><strong>Gradient Accents:</strong> Blue-to-purple gradients for CTAs and headers</li>
+                <li><strong>Micro-animations:</strong> Framer Motion for page transitions, card hover effects, and
+                    loading states</li>
+                <li><strong>Mobile-first:</strong> Fully responsive design from 320px to 4K displays</li>
+                <li><strong>Typography:</strong> Google Fonts — Inter (body) and Outfit (headings)</li>
+            </ul>
+
+            <h3>10.2 Pages</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Page</th>
+                        <th>Route</th>
+                        <th>Key Features</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Home</td>
+                        <td>/</td>
+                        <td>Hero with stats, feature cards, featured destinations, CTA</td>
+                    </tr>
+                    <tr>
+                        <td>Explore</td>
+                        <td>/explore</td>
+                        <td>Search bar, tag filters, budget filter, paginated grid</td>
+                    </tr>
+                    <tr>
+                        <td>Destination Detail</td>
+                        <td>/destination/:id</td>
+                        <td>Hero image, info cards, weather widget, reviews, gallery, similar destinations</td>
+                    </tr>
+                    <tr>
+                        <td>Plan Trip</td>
+                        <td>/plan</td>
+                        <td>Multi-field form with destination dropdown, interest tags, transport/stay/food preferences
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Itinerary View</td>
+                        <td>/itinerary/:id</td>
+                        <td>Day-wise timeline, budget status, meals, accommodation, PDF download</td>
+                    </tr>
+                    <tr>
+                        <td>Login</td>
+                        <td>/login</td>
+                        <td>Glassmorphism card with icon-prefixed inputs</td>
+                    </tr>
+                    <tr>
+                        <td>Register</td>
+                        <td>/register</td>
+                        <td>Registration with password confirmation</td>
+                    </tr>
+                    <tr>
+                        <td>Profile</td>
+                        <td>/profile</td>
+                        <td>User info card + saved itinerary history list</td>
+                    </tr>
+                    <tr>
+                        <td>Admin Dashboard</td>
+                        <td>/admin</td>
+                        <td>Tabbed: Overview stats, Destination CRUD + modal, Review moderation, Analytics</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>10.3 Component Architecture</h3>
+            <div class="ascii-diagram">
+                App.jsx
+                ├── Navbar.jsx (sticky, glassmorphism, responsive hamburger)
+                ├── Footer.jsx (dark theme, quick links)
+                ├── Routes
+                │ ├── Home.jsx → DestinationCard.jsx
+                │ ├── Explore.jsx → DestinationCard.jsx, LoadingSpinner.jsx
+                │ ├── DestinationDetail.jsx → WeatherWidget.jsx, StarRating.jsx, DestinationCard.jsx
+                │ ├── PlanTrip.jsx
+                │ ├── ItineraryView.jsx
+                │ ├── Login.jsx
+                │ ├── Register.jsx
+                │ ├── Profile.jsx
+                │ └── AdminDashboard.jsx
+                └── ToastContainer (react-toastify)
+            </div>
+        </div>
+
+        <!-- ========== 11. SECURITY ========== -->
+        <div class="section" id="security">
+            <h2>11. Security Implementation</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Feature</th>
+                        <th>Implementation</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Password Storage</td>
+                        <td>bcrypt hashing with auto-generated salt</td>
+                    </tr>
+                    <tr>
+                        <td>Authentication</td>
+                        <td>Stateless JWT with configurable expiration (default 24h)</td>
+                    </tr>
+                    <tr>
+                        <td>Authorization</td>
+                        <td>Decorators: <code>@login_required</code>, <code>@admin_required</code></td>
+                    </tr>
+                    <tr>
+                        <td>CORS</td>
+                        <td>Flask-CORS restricted to frontend origin</td>
+                    </tr>
+                    <tr>
+                        <td>Input Validation</td>
+                        <td>Server-side validation for all endpoints</td>
+                    </tr>
+                    <tr>
+                        <td>Environment Variables</td>
+                        <td><code>.env</code> file for API keys and secrets (never committed)</td>
+                    </tr>
+                    <tr>
+                        <td>Protected Routes</td>
+                        <td>React <code>ProtectedRoute</code> and <code>AdminRoute</code> components</td>
+                    </tr>
+                    <tr>
+                        <td>Token Handling</td>
+                        <td>Axios interceptors auto-attach JWT, handle 401 redirects</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- ========== 12. TESTING ========== -->
+        <div class="section" id="testing">
+            <h2>12. Testing & Verification</h2>
+            <h3>12.1 Backend Verification</h3>
+            <ol>
+                <li>Ensure MongoDB is running on <code>localhost:27017</code></li>
+                <li>Run <code>python app.py</code> from backend directory</li>
+                <li>Verify health check: <code>GET /api/health</code> returns <code>{"status": "healthy"}</code></li>
+                <li>Default admin user auto-created: <code>admin@travelplanner.com / admin123</code></li>
+            </ol>
+            <h3>12.2 Frontend Verification</h3>
+            <ol>
+                <li>Run <code>npm run dev</code> from frontend directory</li>
+                <li>Open <code>http://localhost:5173</code></li>
+                <li>Verify <code>npm run build</code> compiles without errors</li>
+            </ol>
+            <h3>12.3 Integration Tests</h3>
+            <ol>
+                <li>Register → Login → Verify JWT stored</li>
+                <li>Admin login → Create destination with images → Verify in Explore page</li>
+                <li>Plan Trip → Generate Itinerary → Verify day-wise display</li>
+                <li>Download PDF → Verify document opens correctly</li>
+                <li>Submit Review → Verify appears on destination page</li>
+            </ol>
+        </div>
+
+        <!-- ========== 13. SETUP ========== -->
+        <div class="section" id="setup">
+            <h2>13. Installation & Setup Guide</h2>
+
+            <h3>Prerequisites</h3>
+            <ul>
+                <li>Node.js 18+ &amp; npm</li>
+                <li>Python 3.10+</li>
+                <li>MongoDB 6+ (running locally on port 27017)</li>
+                <li>Google Gemini API key</li>
+                <li>OpenWeatherMap API key</li>
+            </ul>
+
+            <h3>Step 1: Backend Setup</h3>
+            <pre><code>cd backend
+pip install -r requirements.txt
+
+# Edit .env with your API keys:
+# GEMINI_API_KEY=your-key-here
+# WEATHER_API_KEY=your-key-here
+
+python app.py
+# Server starts at http://localhost:5000</code></pre>
+
+            <h3>Step 2: Frontend Setup</h3>
+            <pre><code>cd frontend
+npm install
+npm run dev
+# App opens at http://localhost:5173</code></pre>
+
+            <h3>Step 3: Default Admin Login</h3>
+            <pre><code>Email: admin@travelplanner.com
+Password: admin123</code></pre>
+
+            <h3>Environment Variables (.env)</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Variable</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>GEMINI_API_KEY</code></td>
+                        <td>Google Gemini API key</td>
+                    </tr>
+                    <tr>
+                        <td><code>WEATHER_API_KEY</code></td>
+                        <td>OpenWeatherMap API key</td>
+                    </tr>
+                    <tr>
+                        <td><code>MONGO_URI</code></td>
+                        <td>MongoDB connection string</td>
+                    </tr>
+                    <tr>
+                        <td><code>SECRET_KEY</code></td>
+                        <td>Flask secret key</td>
+                    </tr>
+                    <tr>
+                        <td><code>JWT_SECRET_KEY</code></td>
+                        <td>JWT signing secret</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- ========== 14. FUTURE ========== -->
+        <div class="section" id="future">
+            <h2>14. Future Enhancements</h2>
+            <ul>
+                <li>Multi-language support for international travelers</li>
+                <li>Real-time flight and hotel booking integration</li>
+                <li>Social sharing of itineraries</li>
+                <li>Collaborative trip planning (group trips)</li>
+                <li>Mobile app (React Native) for offline itinerary access</li>
+                <li>AI-powered chatbot for real-time travel assistance</li>
+                <li>Map integration with Google Maps API for route visualization</li>
+                <li>Currency converter with real-time exchange rates</li>
+            </ul>
+        </div>
+
+        <!-- ========== 15. CONCLUSION ========== -->
+        <div class="section" id="conclusion">
+            <h2>15. Conclusion</h2>
+            <p>
+                The AI Travel Planner Smart Guide demonstrates the practical application of generative AI in
+                solving real-world travel planning challenges. By combining Google Gemini AI's natural language
+                understanding with a well-architected full-stack application, the platform delivers personalized,
+                budget-aware itineraries that would traditionally require hours of manual research or expensive
+                travel agent consultations.
+            </p>
+            <p>
+                The modular architecture (Flask blueprints, React component hierarchy, MongoDB aggregation pipelines)
+                ensures maintainability and scalability. The integration of real-time weather data, a recommendation
+                engine, user reviews, and analytics provides a comprehensive solution that goes beyond simple
+                itinerary generation to offer a complete travel planning ecosystem.
+            </p>
+            <p>
+                The project successfully achieves all stated objectives and provides a production-ready foundation
+                that can be extended with additional features like booking integration, social sharing, and
+                multi-language support.
+            </p>
+        </div>
+
+        <!-- ========== 16. REFERENCES ========== -->
+        <div class="section" id="references">
+            <h2>16. References</h2>
+            <ol>
+                <li>React.js Documentation — <a href="https://react.dev">https://react.dev</a></li>
+                <li>Flask Documentation — <a
+                        href="https://flask.palletsprojects.com">https://flask.palletsprojects.com</a></li>
+                <li>MongoDB Manual — <a
+                        href="https://www.mongodb.com/docs/manual/">https://www.mongodb.com/docs/manual/</a></li>
+                <li>Google Gemini AI — <a href="https://ai.google.dev/docs">https://ai.google.dev/docs</a></li>
+                <li>Tailwind CSS — <a href="https://tailwindcss.com/docs">https://tailwindcss.com/docs</a></li>
+                <li>OpenWeatherMap API — <a href="https://openweathermap.org/api">https://openweathermap.org/api</a>
+                </li>
+                <li>Framer Motion — <a href="https://www.framer.com/motion/">https://www.framer.com/motion/</a></li>
+                <li>ReportLab — <a href="https://docs.reportlab.com">https://docs.reportlab.com</a></li>
+                <li>JWT (RFC 7519) — <a
+                        href="https://tools.ietf.org/html/rfc7519">https://tools.ietf.org/html/rfc7519</a></li>
+                <li>bcrypt — <a href="https://pypi.org/project/bcrypt/">https://pypi.org/project/bcrypt/</a></li>
+            </ol>
+        </div>
+
+    </div><!-- end container -->
+
+</body>
+
+</html>

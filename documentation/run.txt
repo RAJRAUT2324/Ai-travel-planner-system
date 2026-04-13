@@ -1,0 +1,16 @@
+# 1. Make sure MongoDB is running on localhost:27017
+
+# 2. Edit backend/.env with your API keys:
+#    GEMINI_API_KEY=your-key
+#    WEATHER_API_KEY=your-key
+
+# 3. Start backend
+cd backend
+python app.py
+
+# 4. Start frontend (new terminal)
+cd frontend
+npm run dev
+
+# 5. Open http://localhost:5173
+#    Admin: admin@travelplanner.com / admin123

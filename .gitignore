@@ -1,0 +1,39 @@
+# =============================================
+# AI Travel Planner Smart Guide - .gitignore
+# =============================================
+
+# Dependencies
+node_modules/
+__pycache__/
+*.pyc
+*.pyo
+
+# Environment variables
+.env
+*.env.local
+
+# Build output
+frontend/dist/
+frontend/build/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Python
+*.egg-info/
+*.egg
+dist/
+build/
+venv/
+env/
+
+# Logs
+*.log
+npm-debug.log*
