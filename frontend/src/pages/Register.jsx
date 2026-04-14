@@ -1,5 +1,5 @@
 /**
- * Register — Premium account creation experience for VoyageAI.
+ * Register — account creation for TripMind.
  */
 
 import { useState } from 'react';
@@ -50,7 +50,7 @@ const Register = () => {
                             <span className="text-xl">✈️</span>
                         </div>
                         <span className="font-display font-black text-2xl tracking-tighter text-slate-900">
-                            VOYAGE<span className="gradient-text">AI</span>
+                            TRIP<span className="gradient-text">MIND</span>
                         </span>
                     </Link>
                     <h1 className="text-4xl font-black tracking-tighter text-slate-900 uppercase">New Personnel</h1>
@@ -73,7 +73,7 @@ const Register = () => {
                             <label className="input-label !text-[10px] uppercase tracking-[0.2em] mb-3">Login Identifier (Email)</label>
                             <div className="relative">
                                 <FiMail className="absolute left-6 top-1/2 -translate-y-1/2 text-slate-300" size={20} />
-                                <input type="email" placeholder="nomad@voyage.ai" value={form.email}
+                                <input type="email" placeholder="hello@tripmind.com" value={form.email}
                                     onChange={(e) => setForm(f => ({ ...f, email: e.target.value }))}
                                     className="input-field !pl-16" required />
                             </div>

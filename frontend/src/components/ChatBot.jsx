@@ -56,8 +56,8 @@ const ChatBot = () => {
     const handleQuickAction = (type) => {
         if (type === 'contact') {
             const reply = language === 'english' 
-                ? "You can reach us at contact@voyageai.com or call +1-800-VOYAGE."
-                : "आप हमसे contact@voyageai.com पर संपर्क कर सकते हैं या +1-800-VOYAGE पर कॉल कर सकते हैं।";
+                ? "You can reach us at hello@tripmind.com or call +91-9356935361."
+                : "आप हमसे hello@tripmind.com पर संपर्क कर सकते हैं या +91-9356935361 पर कॉल कर सकते हैं।";
             setMessages(prev => [...prev, { role: 'user', text: language === 'english' ? 'Contact info' : 'संपर्क जानकारी' }, { role: 'assistant', text: reply }]);
             speak(reply);
         } else if (type === 'how_to_use') {

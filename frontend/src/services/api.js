@@ -78,14 +78,32 @@ export const weatherAPI = {
 
 // ─── Admin ───────────────────────────────────────────
 export const adminAPI = {
+    // Stats & Analytics
     getStats: () => API.get('/admin/stats'),
     getMostSearched: () => API.get('/admin/analytics/searches'),
     getPopularTags: () => API.get('/admin/analytics/tags'),
     getRecentActivity: () => API.get('/admin/analytics/activity'),
+    getAnalyticsOverview: () => API.get('/admin/analytics/overview'),
+
+    // Users
     getUsers: () => API.get('/admin/users'),
-    getItineraries: () => API.get('/admin/itineraries'),
+    deleteUser: (id) => API.delete(`/admin/users/${id}`),
+    toggleBan: (id) => API.put(`/admin/users/${id}/ban`),
+    setUserRole: (id, data) => API.put(`/admin/users/${id}/role`, data),
+
+    // Destinations
     getDestinations: () => API.get('/admin/destinations'),
+    deleteDestination: (id) => API.delete(`/admin/destinations/${id}`),
+    toggleFeatured: (id) => API.post(`/admin/destinations/${id}/feature`),
+    getFeatured: () => API.get('/admin/featured'),
+
+    // Reviews
     getReviews: () => API.get('/admin/reviews'),
+    deleteReview: (id) => API.delete(`/admin/reviews/${id}`),
+
+    // Itineraries
+    getItineraries: () => API.get('/admin/itineraries'),
+    deleteItinerary: (id) => API.delete(`/admin/itineraries/${id}`),
 };
 
 // ─── Chat ────────────────────────────────────────────

@@ -1,5 +1,5 @@
 /**
- * Profile — Premium user dashboard with voyage history.
+ * Profile — user dashboard with trip history.
  */
 
 import { useState, useEffect } from 'react';
@@ -51,7 +51,7 @@ const Profile = () => {
                     <div className="lg:col-span-4 grid grid-cols-2 gap-4">
                         <div className="p-8 bg-slate-50 rounded-3xl border border-slate-100 text-center">
                             <div className="text-3xl font-black text-slate-900 tracking-tighter">{itineraries.length}</div>
-                            <div className="text-[10px] font-black text-slate-400 uppercase tracking-widest mt-1">Voyages</div>
+                            <div className="text-[10px] font-black text-slate-400 uppercase tracking-widest mt-1">Trips</div>
                         </div>
                         <div className="p-8 bg-slate-50 rounded-3xl border border-slate-100 text-center">
                             <div className="text-3xl font-black text-slate-900 tracking-tighter">4.9</div>
@@ -64,14 +64,14 @@ const Profile = () => {
                     <div className="space-y-12">
                         <div className="flex items-end justify-between border-b border-slate-100 pb-8">
                             <div>
-                                <h2 className="text-xs font-bold text-indigo-600 uppercase tracking-[0.4em] mb-4">Travel History</h2>
-                                <h3 className="text-3xl font-bold tracking-tighter text-slate-900">Your Journeys.</h3>
+                                <h2 className="text-xs font-bold text-indigo-600 uppercase tracking-[0.4em] mb-4">Past Trips</h2>
+                                <h3 className="text-3xl font-bold tracking-tighter text-slate-900">My Trips.</h3>
                             </div>
                         </div>
 
                     {loading ? (
                         <div className="py-20 flex justify-center">
-                            <LoadingSpinner text="Syncing Records..." />
+                            <LoadingSpinner text="Loading Trips..." />
                         </div>
                     ) : itineraries.length === 0 ? (
                         <div className="glass-card p-20 text-center bg-slate-50 border-dashed border-slate-200">

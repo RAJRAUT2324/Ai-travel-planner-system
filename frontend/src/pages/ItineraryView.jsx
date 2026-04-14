@@ -1,5 +1,5 @@
 /**
- * ItineraryView — Premium "Voyage Dossier" experience.
+ * ItineraryView — Your Trip Plan experience.
  */
 
 import { useState, useEffect } from 'react';

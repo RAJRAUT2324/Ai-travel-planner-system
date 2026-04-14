@@ -102,7 +102,7 @@ const PlanTrip = () => {
                 destination_id: form.destination_id || null
             };
             const res = await itineraryAPI.generate(payload);
-            toast.success('Voyage Blueprint Synchronized');
+            toast.success('Trip Plan Synchronized');
             navigate(`/itinerary/${res.data.itinerary_id}`);
         } catch (err) {
             toast.error(err.response?.data?.error || 'Intelligence failed to generate route');

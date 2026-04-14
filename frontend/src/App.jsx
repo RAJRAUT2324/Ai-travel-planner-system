@@ -20,6 +20,7 @@ import Profile from './pages/Profile';
 import AdminDashboard from './pages/AdminDashboard';
 import AdminLogin from './pages/AdminLogin';
 import MapPortal from './pages/MapPortal';
+import AgencyPortal from './pages/AgencyPortal';
 import ChatBot from './components/ChatBot';
 
 const ProtectedRoute = ({ children }) => {
@@ -45,6 +46,7 @@ function App() {
                 <Routes>
                     <Route path="/" element={<Home />} />
                     <Route path="/explore" element={<Explore />} />
+                    <Route path="/agencies" element={<AgencyPortal />} />
                     <Route path="/destination/:id" element={<DestinationDetail />} />
                     <Route path="/login" element={<Login />} />
                     <Route path="/register" element={<Register />} />

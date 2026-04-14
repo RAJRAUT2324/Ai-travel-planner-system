@@ -1,5 +1,5 @@
 /**
- * Home — Premium AI-first landing experience with immersive design.
+ * Home — Simplified TripMind landing experience.
  */
 
 import { useState, useEffect } from 'react';
@@ -19,10 +19,10 @@ const Home = () => {
     }, []);
 
     const features = [
-        { icon: <FiZap />, title: 'AI Blueprints', desc: 'Smarter itineraries crafted by Llama 3 & Gemini models.', color: 'indigo' },
-        { icon: <FiGlobe />, title: 'Global Discovery', desc: 'Any city, any country. Search any place and our AI finds it.', color: 'rose' },
-        { icon: <FiNavigation />, title: 'Smart Routes', desc: 'Optimized travel paths that respect your budget limits.', color: 'violet' },
-        { icon: <FiShield />, title: 'Reliability', desc: 'Secure booking tips and hand-picked local gems.', color: 'emerald' },
+        { icon: <FiZap />, title: 'AI Planning', desc: 'Create your perfect travel schedule automatically.', color: 'indigo' },
+        { icon: <FiGlobe />, title: 'Any Destination', desc: 'Search for any city or country around the world.', color: 'rose' },
+        { icon: <FiNavigation />, title: 'Best Routes', desc: 'Find the easiest way to travel between stops.', color: 'violet' },
+        { icon: <FiShield />, title: 'Smart Tips', desc: 'Get helpful advice for hidden gems and safety.', color: 'emerald' },
     ];
 
     return (
@@ -48,26 +48,26 @@ const Home = () => {
                                   <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-indigo-400 opacity-75"></span>
                                   <span className="relative inline-flex rounded-full h-2 w-2 bg-indigo-500"></span>
                                 </span>
-                                Next Gen Travel Intelligence
+                                Intelligent Travel Planner
                             </div>
                             
                             <h1 className="section-title mb-8">
-                                Craft Your <span className="gradient-text">Odyssey</span> <br />
-                                <span className="text-slate-400 font-light">with the precision of AI.</span>
+                                Plan Your <span className="gradient-text">Next Trip</span> <br />
+                                <span className="text-slate-400 font-light">Simply with AI.</span>
                             </h1>
                             
                             <p className="section-subtitle mb-12">
-                                VoyageAI transforms your wildest travel dreams into structured reality. 
-                                From hidden mountain villages to pulsing neon cities, get the perfect itinerary in seconds.
+                                TripMind turns your travel ideas into an easy plan. 
+                                From quick city tours to mountain climbs, get your schedule in seconds.
                             </p>
                             
                             <div className="flex flex-col sm:flex-row gap-5">
                                 <Link to="/plan" className="btn-primary group">
-                                    <span>Initiate Blueprint</span>
+                                    <span>Get Started</span>
                                     <FiArrowRight className="group-hover:translate-x-1 transition-transform" />
                                 </Link>
                                 <Link to="/explore" className="btn-secondary">
-                                    Browse Discoveries
+                                    Browse Places
                                 </Link>
                             </div>
 
@@ -75,11 +75,11 @@ const Home = () => {
                             <div className="mt-16 pt-12 border-t border-slate-100 flex flex-wrap gap-12">
                                 <div>
                                     <div className="text-3xl font-black text-slate-900 tracking-tighter">1.2M+</div>
-                                    <div className="text-xs font-bold text-slate-400 uppercase tracking-widest mt-1">Routes Generated</div>
+                                    <div className="text-xs font-bold text-slate-400 uppercase tracking-widest mt-1">Plans Created</div>
                                 </div>
                                 <div>
                                     <div className="text-3xl font-black text-slate-900 tracking-tighter">98.4%</div>
-                                    <div className="text-xs font-bold text-slate-400 uppercase tracking-widest mt-1">AI Precision</div>
+                                    <div className="text-xs font-bold text-slate-400 uppercase tracking-widest mt-1">Accuracy</div>
                                 </div>
                                 <div className="flex -space-x-3 items-center">
                                     {[1,2,3,4].map(i => (
@@ -87,7 +87,7 @@ const Home = () => {
                                             <img src={`https://i.pravatar.cc/100?img=${i+10}`} alt="User" />
                                         </div>
                                     ))}
-                                    <div className="pl-6 text-xs font-bold text-slate-400 uppercase tracking-widest">+40k Explorers</div>
+                                    <div className="pl-6 text-xs font-bold text-slate-400 uppercase tracking-widest">+40k Travelers</div>
                                 </div>
                             </div>
                         </motion.div>
@@ -107,41 +107,24 @@ const Home = () => {
                                 />
                                 <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-black/60 to-transparent flex items-end p-10">
                                     <div className="text-white">
-                                        <span className="text-xs font-black tracking-[0.3em] uppercase opacity-70">Destination of the Week</span>
+                                        <span className="text-xs font-black tracking-[0.3em] uppercase opacity-70">Popular Place</span>
                                         <h3 className="text-3xl font-black mt-2">Dolomites, Italy</h3>
                                     </div>
                                 </div>
                             </div>
-                            
-                            {/* Floating Stats Card */}
-                            <motion.div 
-                                animate={{ y: [0, -20, 0] }}
-                                transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-                                className="absolute -left-12 top-1/2 glass-card p-6 shadow-2xl z-20"
-                            >
-                                <div className="flex items-center gap-4">
-                                    <div className="w-12 h-12 bg-indigo-500 rounded-xl flex items-center justify-center text-white">
-                                        <FiZap size={24} />
-                                    </div>
-                                    <div>
-                                        <div className="text-xs font-black text-slate-400 uppercase">Latency</div>
-                                        <div className="text-xl font-black text-slate-900">420ms</div>
-                                    </div>
-                                </div>
-                            </motion.div>
                         </motion.div>
                     </div>
                 </div>
             </section>
 
-            {/* Premium Features Grid */}
+            {/* Features Grid */}
             <section className="py-32 relative">
                 <div className="max-w-7xl mx-auto px-6 sm:px-8">
                     <div className="grid lg:grid-cols-4 gap-8">
                         <div className="lg:col-span-1">
-                            <h2 className="text-xs font-black text-indigo-600 uppercase tracking-[0.4em] mb-4">Architecture</h2>
-                            <h3 className="text-3xl font-black tracking-tighter text-slate-900 mb-6">Engineered for the Modern Nomad.</h3>
-                            <p className="text-slate-500 font-medium">We built a travel engine that thinks like a human but computes like a machine.</p>
+                            <h2 className="text-xs font-black text-indigo-600 uppercase tracking-[0.4em] mb-4">Design</h2>
+                            <h3 className="text-3xl font-black tracking-tighter text-slate-900 mb-6">Made for the modern traveler.</h3>
+                            <p className="text-slate-500 font-medium">We built TripMind to make trip planning fast, simple, and fun.</p>
                         </div>
                         <div className="lg:col-span-3 grid md:grid-cols-2 gap-8">
                             {features.map((feat, i) => (
@@ -168,7 +151,7 @@ const Home = () => {
                 </div>
             </section>
 
-            {/* Discovery Feed Section */}
+            {/* Discovery Section */}
             {featured.length > 0 && (
                 <section className="py-32 bg-slate-50/50 relative">
                     <div className="max-w-7xl mx-auto px-6 sm:px-8">
@@ -180,11 +163,11 @@ const Home = () => {
                             className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-20"
                         >
                             <div className="max-w-xl">
-                                <h2 className="text-xs font-black text-rose-600 uppercase tracking-[0.4em] mb-4">Curated</h2>
-                                <h3 className="section-title tracking-tight">Trending Destinations.</h3>
+                                <h2 className="text-xs font-black text-rose-600 uppercase tracking-[0.4em] mb-4">Discovery</h2>
+                                <h3 className="section-title tracking-tight">Top Destinations.</h3>
                             </div>
                             <Link to="/explore" className="btn-secondary group flex items-center gap-3">
-                                <span>Explore Gallery</span>
+                                <span>See All Places</span>
                                 <FiArrowRight className="group-hover:translate-x-1 transition-transform" />
                             </Link>
                         </motion.div>
@@ -198,19 +181,19 @@ const Home = () => {
                 </section>
             )}
 
-            {/* Newsletter/Final CTA */}
+            {/* Final CTA */}
             <section className="py-32 px-6">
                 <div className="max-w-7xl mx-auto glass-card gradient-bg p-12 md:p-24 text-center text-white relative overflow-hidden">
                     <div className="absolute top-0 right-0 w-96 h-96 bg-white/10 rounded-full blur-[100px] translate-x-1/2 -translate-y-1/2" />
                     <div className="absolute bottom-0 left-0 w-96 h-96 bg-indigo-900/20 rounded-full blur-[100px] -translate-x-1/2 translate-y-1/2" />
                     
                     <div className="relative z-10 max-w-2xl mx-auto">
-                        <h2 className="text-4xl md:text-6xl font-black tracking-tight mb-8">Ready to break the simulation?</h2>
+                        <h2 className="text-4xl md:text-6xl font-black tracking-tight mb-8">Ready to start?</h2>
                         <p className="text-xl text-white/80 font-medium mb-12">
-                            Join 40,000+ travelers who use VoyageAI to plan trips that would make Marco Polo jealous.
+                            Join over 40,000 travelers who use TripMind to plan their trips easily.
                         </p>
                         <Link to="/plan" className="inline-flex items-center gap-4 px-12 py-5 bg-white text-slate-900 font-black rounded-2xl hover:bg-slate-50 transition-all hover:scale-105 shadow-2xl">
-                            START PLANNING <FiArrowRight />
+                            PLAN YOUR TRIP <FiArrowRight />
                         </Link>
                     </div>
                 </div>

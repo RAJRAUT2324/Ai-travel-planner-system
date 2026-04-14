@@ -479,7 +479,7 @@ const MapPortal = () => {
                             <FiArrowLeft size={16} />
                         </Link>
                         <div>
-                            <div className="text-xs font-black uppercase tracking-widest text-indigo-400">VoyageAI</div>
+                            <div className="text-xs font-black uppercase tracking-widest text-indigo-400">TripMind</div>
                             <div className={`text-sm font-black ${isDark ? 'text-white' : 'text-slate-900'}`}>
                                 {plan ? `Mission: ${plan.destination_name}` : 'Navigation Portal'}
                             </div>

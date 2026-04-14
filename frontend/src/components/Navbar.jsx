@@ -6,7 +6,7 @@ import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useAuth } from '../context/AuthContext';
-import { FiMenu, FiX, FiUser, FiLogOut, FiCompass, FiHome, FiPlusCircle, FiBarChart2 } from 'react-icons/fi';
+import { FiMenu, FiX, FiUser, FiLogOut, FiCompass, FiHome, FiPlusCircle, FiBarChart2, FiGlobe } from 'react-icons/fi';
 
 const Navbar = () => {
     const [scrolled, setScrolled] = useState(false);
@@ -21,8 +21,9 @@ const Navbar = () => {
     }, []);
 
     const navLinks = [
-        { to: '/', label: 'Portal', icon: <FiHome /> },
+        { to: '/', label: 'Home', icon: <FiHome /> },
         { to: '/explore', label: 'Destinations', icon: <FiCompass /> },
+        { to: '/agencies', label: 'Travel Agencies', icon: <FiGlobe /> },
         { to: '/plan', label: 'AI Planner', icon: <FiPlusCircle />, protected: true },
     ];
 
@@ -43,7 +44,7 @@ const Navbar = () => {
                                 <span className="text-lg md:text-xl">✈️</span>
                             </div>
                             <span className="font-display font-black text-xl md:text-2xl tracking-tighter text-slate-900 uppercase">
-                                VOYAGE<span className="gradient-text">AI</span>
+                                TRIP<span className="gradient-text">MIND</span>
                             </span>
                         </Link>
 
