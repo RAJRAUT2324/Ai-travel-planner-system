@@ -4,7 +4,10 @@
 
 import axios from 'axios';
 
-const API_BASE = import.meta.env.VITE_API_BASE_URL || '/api';
+const rawBaseURL = import.meta.env.VITE_API_BASE_URL || '';
+const API_BASE = rawBaseURL
+    ? (rawBaseURL.endsWith('/api') ? rawBaseURL : `${rawBaseURL.replace(/\/$/, '')}/api`)
+    : '/api';
 
 const budgetAPI = axios.create({
     baseURL: API_BASE,

@@ -37,14 +37,14 @@ def create_app():
     app = Flask(__name__)
     app.config.from_object(Config)
 
-    # Robust CORS configuration for production deployment
+    # Final robust CORS configuration for production
     CORS(app, resources={
         r"/api/*": {
-            "origins": ["*"],
+            "origins": ["https://aitplanner.netlify.app", "http://localhost:5173"],
             "methods": ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
             "allow_headers": ["Content-Type", "Authorization"]
         }
-    })
+    }, supports_credentials=True)
 
     # MongoDB connection
     client = MongoClient(Config.MONGO_URI)
