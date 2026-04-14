@@ -17,7 +17,9 @@ class Config:
     DEBUG = os.getenv("DEBUG", "False").lower() == "true"
 
     # MongoDB
-    MONGO_URI = os.getenv("MONGO_URI", "mongodb://localhost:27017/ai_travel_planner")
+    _raw_mongo_uri = os.getenv("MONGO_URI", "mongodb://localhost:27017/ai_travel_planner")
+    # Clean the URI: remove quotes, whitespace, and trailing separators
+    MONGO_URI = _raw_mongo_uri.strip().strip("'").strip('"').rstrip('&').rstrip('?')
     DB_NAME = "ai_travel_planner"
 
     # JWT
