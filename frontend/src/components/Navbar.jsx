@@ -6,7 +6,7 @@ import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useAuth } from '../context/AuthContext';
-import { FiMenu, FiX, FiUser, FiLogOut, FiCompass, FiHome, FiPlusCircle, FiBarChart2, FiGlobe } from 'react-icons/fi';
+import { FiMenu, FiX, FiUser, FiLogOut, FiCompass, FiHome, FiPlusCircle, FiBarChart2, FiGlobe, FiDollarSign } from 'react-icons/fi';
 
 const Navbar = () => {
     const [scrolled, setScrolled] = useState(false);
@@ -24,6 +24,7 @@ const Navbar = () => {
         { to: '/', label: 'Home', icon: <FiHome /> },
         { to: '/explore', label: 'Destinations', icon: <FiCompass /> },
         { to: '/agencies', label: 'Travel Agencies', icon: <FiGlobe /> },
+        // { to: '/budget', label: 'Budget Planner', icon: <FiDollarSign /> },
         { to: '/plan', label: 'AI Planner', icon: <FiPlusCircle />, protected: true },
     ];
 
@@ -31,11 +32,10 @@ const Navbar = () => {
 
     return (
         <header className={`fixed top-0 left-0 right-0 z-[100] transition-all duration-500 px-4 sm:px-8 ${scrolled ? 'pt-2 md:pt-4' : 'pt-4 md:pt-6'}`}>
-            <nav className={`max-w-7xl mx-auto transition-all duration-500 rounded-2xl md:rounded-3xl border ${
-                scrolled 
-                ? 'bg-white/60 backdrop-blur-2xl shadow-xl border-white/20' 
-                : 'bg-transparent border-transparent'
-            }`}>
+            <nav className={`max-w-7xl mx-auto transition-all duration-500 rounded-2xl md:rounded-3xl border ${scrolled
+                    ? 'bg-white/60 backdrop-blur-2xl shadow-xl border-white/20'
+                    : 'bg-transparent border-transparent'
+                }`}>
                 <div className="px-6 sm:px-8">
                     <div className="flex items-center justify-between h-20">
                         {/* Brand Logo */}
@@ -98,8 +98,8 @@ const Navbar = () => {
                         </div>
 
                         {/* Mobile Button */}
-                        <button 
-                            onClick={() => setIsOpen(!isOpen)} 
+                        <button
+                            onClick={() => setIsOpen(!isOpen)}
                             className="lg:hidden w-10 h-10 flex items-center justify-center bg-slate-100 rounded-xl text-slate-900 hover:bg-slate-200 transition-colors"
                         >
                             {isOpen ? <FiX size={18} /> : <FiMenu size={18} />}
@@ -120,9 +120,9 @@ const Navbar = () => {
                                 {navLinks.map((link) => {
                                     if (link.protected && !user) return null;
                                     return (
-                                        <Link 
-                                            key={link.to} 
-                                            to={link.to} 
+                                        <Link
+                                            key={link.to}
+                                            to={link.to}
                                             onClick={() => setIsOpen(false)}
                                             className={`flex items-center gap-3 px-6 py-4 rounded-2xl text-lg font-bold transition-all
                                             ${isActive(link.to) ? 'bg-indigo-50 text-indigo-700' : 'bg-slate-50 text-slate-600'}`}

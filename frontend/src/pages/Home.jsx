@@ -5,7 +5,7 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { FiArrowRight, FiMap, FiStar, FiShield, FiZap, FiNavigation, FiGlobe } from 'react-icons/fi';
+import { FiArrowRight, FiMap, FiStar, FiShield, FiZap, FiNavigation, FiGlobe, FiDollarSign } from 'react-icons/fi';
 import { destinationsAPI } from '../services/api';
 import DestinationCard from '../components/DestinationCard';
 
@@ -125,6 +125,35 @@ const Home = () => {
                             <h2 className="text-xs font-black text-indigo-600 uppercase tracking-[0.4em] mb-4">Design</h2>
                             <h3 className="text-3xl font-black tracking-tighter text-slate-900 mb-6">Made for the modern traveler.</h3>
                             <p className="text-slate-500 font-medium">We built TripMind to make trip planning fast, simple, and fun.</p>
+
+                            {/* Budget Planner Card */}
+                            <motion.div
+                                whileHover={{ y: -4 }}
+                                transition={{ duration: 0.3 }}
+                                className="mt-8 glass-card p-6 border border-indigo-100/60"
+                            >
+                                <div className="flex items-center gap-3 mb-3">
+                                    <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-500 to-violet-600 flex items-center justify-center text-white shadow-lg shadow-indigo-200 shrink-0">
+                                        <FiDollarSign size={18} />
+                                    </div>
+                                    <div>
+                                        <p className="font-black text-slate-900 text-sm">Budget Architect</p>
+                                        <p className="text-[11px] text-indigo-500 font-bold uppercase tracking-widest">AI-Powered</p>
+                                    </div>
+                                </div>
+                                <p className="text-slate-500 text-sm font-medium mb-5 leading-relaxed">
+                                    Get a smart, day-by-day budget breakdown with ₹ prices for flights, trains, hotels &amp; activities — all in seconds.
+                                </p>
+                                <Link
+                                    to="/budget"
+                                    className="flex items-center justify-center gap-3 w-full px-8 py-4 bg-indigo-600 text-white font-black rounded-2xl
+                                               hover:bg-indigo-700 hover:shadow-xl hover:shadow-indigo-200 hover:-translate-y-0.5
+                                               transition-all duration-300 text-base group"
+                                >
+                                    <span>Try Budget Planner</span>
+                                    <FiArrowRight className="group-hover:translate-x-1 transition-transform" size={18} />
+                                </Link>
+                            </motion.div>
                         </div>
                         <div className="lg:col-span-3 grid md:grid-cols-2 gap-8">
                             {features.map((feat, i) => (

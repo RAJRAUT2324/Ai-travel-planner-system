@@ -14,11 +14,12 @@ const REAL_AGENCIES = [
         location: "Rajapeth, Amravati",
         price_range: "₹600 - ₹1200",
         trip_type: ["One-day trip", "Group tour"],
-        contact: "Not Public",
+        contact: "+91 98223 45112",
+        offer: "10% off on Groups",
         description: "Specialized in local sightseeing tours and daily group departures to nearby scenic locations.",
         popular_routes: ["Amravati → Chikhaldara", "Amravati → Melghat Tiger Reserve"],
         rating: 4.8,
-        image: "https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&q=80&w=800"
+        image: "https://picsum.photos/id/1015/800/600"
     },
     {
         id: 2,
@@ -26,11 +27,12 @@ const REAL_AGENCIES = [
         location: "Gadge Nagar, Amravati",
         price_range: "₹1200 - ₹2000",
         trip_type: ["Adventure trip", "Group tour"],
-        contact: "Not Public",
+        contact: "+91 77456 12845",
+        offer: "Free Camping Gear",
         description: "Focusing on trekking expeditions and adventure camping in the Satpura mountain ranges.",
         popular_routes: ["Amravati → Gawilghur Fort", "Amravati → Upper Wardha Dam"],
         rating: 4.9,
-        image: "https://images.unsplash.com/photo-1533240332313-0dbf2f167523?auto=format&fit=crop&q=80&w=800"
+        image: "https://picsum.photos/id/1016/800/600"
     },
     {
         id: 3,
@@ -38,11 +40,12 @@ const REAL_AGENCIES = [
         location: "Main Market, Chikhaldara",
         price_range: "₹500 - ₹1500",
         trip_type: ["One-day trip", "Adventure trip"],
-        contact: "Not Public",
+        contact: "+91 88341 90291",
+        offer: "Flat ₹200 Off",
         description: "Leading local experts for hill station exploration, valley views, and jungle safaris.",
         popular_routes: ["Chikhaldara Circle", "Chikhaldara → Semadoh Wildlife"],
         rating: 4.7,
-        image: "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&q=80&w=800"
+        image: "https://picsum.photos/id/1018/800/600"
     },
     {
         id: 4,
@@ -50,11 +53,12 @@ const REAL_AGENCIES = [
         location: "Near Ambadevi Temple, Amravati",
         price_range: "₹800 - ₹1800",
         trip_type: ["Religious trip", "Group tour"],
-        contact: "Not Public",
+        contact: "+91 94231 45600",
+        offer: "Complimentary Meals",
         description: "Safe and organized group departures for pilgrimage circuits around Maharashtra.",
         popular_routes: ["Amravati → Ambadevi Local", "Amravati → Shegaon Gajanana Maharaj"],
         rating: 4.6,
-        image: "https://images.unsplash.com/photo-1590050752117-23a9d7fc2140?auto=format&fit=crop&q=80&w=800"
+        image: "https://picsum.photos/id/1036/800/600"
     },
     {
         id: 5,
@@ -62,11 +66,51 @@ const REAL_AGENCIES = [
         location: "Railway Station Area, Amravati",
         price_range: "₹700 - ₹1400",
         trip_type: ["Group tour", "One-day trip"],
-        contact: "Not Public",
+        contact: "+91 99123 78455",
+        offer: "No cancellation fee",
         description: "Reliable transportation services with experienced local drivers for short family outings.",
         popular_routes: ["Amravati → Badnera Junction", "Amravati → Pohara Forest"],
         rating: 4.5,
-        image: "https://images.unsplash.com/photo-1596484552834-6a58f850e0a1?auto=format&fit=crop&q=80&w=800"
+        image: "https://picsum.photos/id/1039/800/600"
+    },
+    {
+        id: 6,
+        name: "Sahyadri Explorers",
+        location: "Deccan, Pune",
+        price_range: "₹1500 - ₹3500",
+        trip_type: ["Adventure trip", "Group tour"],
+        contact: "+91 80556 22132",
+        offer: "20% off for Early Birds",
+        description: "Top-rated agency for adventurous monsoon treks and historical fort visits across the Sahyadri range.",
+        popular_routes: ["Pune → Rajmachi Fort", "Pune → Harishchandragad"],
+        rating: 4.9,
+        image: "https://picsum.photos/id/1043/800/600"
+    },
+    {
+        id: 7,
+        name: "Konkan Escapes",
+        location: "Dadar, Mumbai",
+        price_range: "₹2000 - ₹5000",
+        trip_type: ["Group tour", "One-day trip"],
+        contact: "+91 76223 90811",
+        offer: "Free Beach Cabana",
+        description: "Curated beach holidays and coastal adventures with premium transport and local stays.",
+        popular_routes: ["Mumbai → Alibaug", "Mumbai → Malvan"],
+        rating: 4.8,
+        image: "https://picsum.photos/id/1044/800/600"
+    },
+    {
+        id: 8,
+        name: "Orange City Tours",
+        location: "Sitabuldi, Nagpur",
+        price_range: "₹800 - ₹2500",
+        trip_type: ["One-day trip", "Religious trip"],
+        contact: "+91 92837 44577",
+        offer: "Extra 5% off online",
+        description: "Your gateway to exploring central India, focusing on wildlife and cultural heritage spots.",
+        popular_routes: ["Nagpur → Tadoba", "Nagpur → Ramtek"],
+        rating: 4.6,
+        image: "https://picsum.photos/id/1047/800/600"
     }
 ];
 
@@ -84,6 +128,15 @@ const AgencyCard = ({ agency }) => {
             <div className="relative h-48 overflow-hidden">
                 <img src={agency.image} alt={agency.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
                 <div className="absolute inset-0 bg-gradient-to-t from-slate-900/60 to-transparent" />
+                
+                {/* Offer Badge Top Left */}
+                {agency.offer && (
+                    <div className="absolute top-4 left-4 bg-indigo-600/90 backdrop-blur-md px-3 py-1.5 rounded-full flex items-center gap-1.5 shadow-lg border border-indigo-400/30">
+                        <FiTag size={12} className="text-indigo-100" />
+                        <span className="text-[9px] font-black uppercase text-white tracking-widest shadow-sm">{agency.offer}</span>
+                    </div>
+                )}
+
                 <div className="absolute bottom-4 left-6 right-6 flex items-end justify-between">
                     <div>
                         <div className="flex items-center gap-1.5 mb-1">
@@ -114,6 +167,14 @@ const AgencyCard = ({ agency }) => {
                         <span className="text-[10px] font-black text-slate-300 uppercase tracking-widest">Contact</span>
                         <span className="text-xs font-bold text-slate-400 uppercase tracking-widest">{agency.contact}</span>
                     </div>
+                    {agency.offer && (
+                        <div className="flex items-center justify-between py-2 border-b border-slate-50">
+                            <span className="flex items-center gap-1.5 text-[10px] font-black text-indigo-400 uppercase tracking-widest">
+                                <FiTag size={12} /> Special Offer
+                            </span>
+                            <span className="text-xs font-bold text-indigo-600 uppercase tracking-widest">{agency.offer}</span>
+                        </div>
+                    )}
                 </div>
 
                 <div className="space-y-3 mb-8">
@@ -247,9 +308,9 @@ const AgencyPortal = () => {
                     <div>
                         <h4 className="text-lg font-black text-slate-800 tracking-tight mb-2 uppercase tracking-widest">Trust & Reliability Policy</h4>
                         <p className="text-sm text-slate-500 leading-relaxed font-medium">
-                            The data shown here is enhanced for realism based on regional travel patterns. Prices between <strong>₹500 and ₹2000</strong> reflect 
-                            estimated local operator costs. Contact details are marked as <strong>Not Public</strong> to ensure data integrity and user privacy. 
-                            Always verify current rates with agencies directly upon reach.
+                            The data shown here is enhanced for realism based on regional travel patterns. Prices between <strong>₹500 and ₹5000</strong> reflect 
+                            estimated local operator costs. Contact details are mocked to ensure data integrity and user privacy. 
+                            Always verify current rates and offers with agencies directly upon reach.
                         </p>
                     </div>
                 </footer>

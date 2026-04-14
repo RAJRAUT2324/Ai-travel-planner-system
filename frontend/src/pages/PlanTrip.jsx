@@ -95,9 +95,9 @@ const PlanTrip = () => {
         setGenerating(true);
         try {
             // Sanitize payload: don't send empty strings for IDs
-            const payload = { 
-                ...form, 
-                budget: parseFloat(form.budget), 
+            const payload = {
+                ...form,
+                budget: parseFloat(form.budget),
                 duration: parseInt(form.duration),
                 destination_id: form.destination_id || null
             };
@@ -116,15 +116,18 @@ const PlanTrip = () => {
                 <div className="max-w-md w-full text-center">
                     <div className="relative w-32 h-32 mx-auto mb-12">
                         <motion.div
-                            className="absolute inset-0 border-4 border-indigo-100 border-t-indigo-500 rounded-full"
+                            className="absolute inset-0 border-4 border-indigo-100 border-t-indigo-500 rounded-full z-10"
                             animate={{ rotate: 360 }}
                             transition={{ duration: 1.5, repeat: Infinity, ease: "linear" }}
                         />
-                        <div className="absolute inset-0 flex items-center justify-center text-5xl animate-pulse text-indigo-500 opacity-80 mt-1">📡</div>
+                        <div className="absolute inset-2 rounded-full overflow-hidden shadow-inner flex items-center justify-center bg-indigo-50">
+                            <img src="https://picsum.photos/id/1036/200/200" className="w-full h-full object-cover opacity-80 scale-110" alt="Traveling" />
+                            <div className="absolute text-5xl flex items-center justify-center animate-pulse drop-shadow-md">✈️</div>
+                        </div>
                     </div>
-                    <h2 className="text-4xl font-black tracking-tighter mb-4 uppercase">Synthesizing Odyssey.</h2>
+                    <h2 className="text-4xl font-black tracking-tighter mb-4 uppercase">synchronizing AI for plan generation.</h2>
                     <p className="text-slate-500 font-bold mb-10 leading-relaxed uppercase tracking-[0.2em] text-[10px]">
-                        Running high-fidelity simulations...
+                        Our AI is generating the plan for you please wait ⏳
                     </p>
                 </div>
             </div>
@@ -138,10 +141,10 @@ const PlanTrip = () => {
                     <div>
                         <h1 className="text-4xl font-black tracking-tighter text-slate-900 mb-2 uppercase">Blueprint Engine.</h1>
                         <p className="text-slate-500 font-bold uppercase tracking-widest text-[10px]">Phase {step} of 4 — {
-                          step === 1 ? 'Target Acquisition' : 
-                          step === 2 ? 'Logic Parameters' : 
-                          step === 3 ? 'Interest Modulation' : 
-                          'Service Configuration'
+                            step === 1 ? 'Target Acquisition' :
+                                step === 2 ? 'Logic Parameters' :
+                                    step === 3 ? 'Interest Modulation' :
+                                        'Service Configuration'
                         }</p>
                     </div>
                     <div className="flex gap-2">
@@ -177,8 +180,8 @@ const PlanTrip = () => {
                                 <div className="space-y-6">
                                     <div className="flex items-center justify-between">
                                         <label className="input-label !text-[10px] uppercase tracking-widest font-black text-slate-400">Target Destination</label>
-                                        <button 
-                                            type="button" 
+                                        <button
+                                            type="button"
                                             onClick={getSuggestions}
                                             disabled={loadingSuggestions}
                                             className="text-indigo-600 flex items-center gap-2 text-[10px] font-black uppercase tracking-widest hover:underline disabled:opacity-50"
@@ -186,14 +189,14 @@ const PlanTrip = () => {
                                             <FiZap /> {loadingSuggestions ? 'Syncing...' : 'Get AI Suggestions'}
                                         </button>
                                     </div>
-                                    
+
                                     <div className="grid gap-4">
-                                        <select 
-                                            value={form.destination_id} 
+                                        <select
+                                            value={form.destination_id}
                                             onChange={(e) => {
                                                 update('destination_id', e.target.value);
                                                 update('destination_name', '');
-                                            }} 
+                                            }}
                                             className="input-field"
                                         >
                                             <option value="">AI Mode: Manual Input or Suggestions</option>
@@ -201,14 +204,14 @@ const PlanTrip = () => {
                                                 <option key={d._id} value={d._id}>{d.name} — {d.city}, {d.country}</option>
                                             ))}
                                         </select>
-                                        
+
                                         {/* Manual/Suggested Input display */}
                                         {!form.destination_id && (
-                                             <div className="relative">
+                                            <div className="relative">
                                                 <FiMapPin className="absolute left-6 top-1/2 -translate-y-1/2 text-slate-400" />
-                                                <input 
-                                                    type="text" 
-                                                    placeholder="Or type any city (e.g. Zurich)..." 
+                                                <input
+                                                    type="text"
+                                                    placeholder="Or type any city (e.g. Zurich)..."
                                                     value={form.destination_name}
                                                     onChange={(e) => update('destination_name', e.target.value)}
                                                     className="input-field !pl-14"
@@ -226,11 +229,10 @@ const PlanTrip = () => {
                                                         key={i}
                                                         type="button"
                                                         onClick={() => selectSuggestion(sug)}
-                                                        className={`p-6 rounded-3xl border-2 text-left transition-all ${
-                                                            form.destination_name === sug.name 
-                                                            ? 'border-indigo-600 bg-indigo-50 shadow-md ring-4 ring-indigo-50' 
-                                                            : 'border-slate-50 bg-slate-50 hover:border-slate-200'
-                                                        }`}
+                                                        className={`p-6 rounded-3xl border-2 text-left transition-all ${form.destination_name === sug.name
+                                                                ? 'border-indigo-600 bg-indigo-50 shadow-md ring-4 ring-indigo-50'
+                                                                : 'border-slate-50 bg-slate-50 hover:border-slate-200'
+                                                            }`}
                                                     >
                                                         <div className="text-xs font-black text-slate-900 mb-2 uppercase">{sug.city}</div>
                                                         <div className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-4">{sug.country}</div>
@@ -256,15 +258,14 @@ const PlanTrip = () => {
                                         { id: 'family', icon: '👨‍👩‍👧‍👦' },
                                         { id: 'friends', icon: '👫' }
                                     ].map(type => (
-                                        <button 
-                                            key={type.id} 
-                                            type="button" 
+                                        <button
+                                            key={type.id}
+                                            type="button"
                                             onClick={() => update('travel_type', type.id)}
-                                            className={`p-8 rounded-[2.5rem] border-2 transition-all flex flex-col items-center gap-4 ${
-                                                form.travel_type === type.id 
-                                                ? 'border-indigo-600 bg-indigo-600 text-white shadow-xl' 
-                                                : 'border-slate-100 bg-slate-50 text-slate-400 hover:border-slate-200 hover:bg-white'
-                                            }`}
+                                            className={`p-8 rounded-[2.5rem] border-2 transition-all flex flex-col items-center gap-4 ${form.travel_type === type.id
+                                                    ? 'border-indigo-600 bg-indigo-600 text-white shadow-xl'
+                                                    : 'border-slate-100 bg-slate-50 text-slate-400 hover:border-slate-200 hover:bg-white'
+                                                }`}
                                         >
                                             <span className="text-3xl">{type.icon}</span>
                                             <span className="text-[10px] font-black uppercase tracking-widest">{type.id}</span>
@@ -294,15 +295,14 @@ const PlanTrip = () => {
                                 <h3 className="text-xl font-black text-slate-900 uppercase tracking-tight">Signal Modulation.</h3>
                                 <div className="flex flex-wrap gap-2">
                                     {INTERESTS.map(interest => (
-                                        <button 
-                                            key={interest} 
-                                            type="button" 
+                                        <button
+                                            key={interest}
+                                            type="button"
                                             onClick={() => toggleInterest(interest)}
-                                            className={`px-8 py-4 rounded-2xl text-[10px] font-black uppercase tracking-widest transition-all ${
-                                                form.interests.includes(interest)
+                                            className={`px-8 py-4 rounded-2xl text-[10px] font-black uppercase tracking-widest transition-all ${form.interests.includes(interest)
                                                     ? 'bg-indigo-600 text-white shadow-xl scale-105'
                                                     : 'bg-slate-50 text-slate-500 border border-slate-100 hover:border-indigo-200'
-                                            }`}
+                                                }`}
                                         >
                                             {interest}
                                         </button>
@@ -334,7 +334,7 @@ const PlanTrip = () => {
                                         </select>
                                     </div>
                                 </div>
-                                
+
                                 <div className="p-10 bg-indigo-50 rounded-[2.5rem] border border-indigo-100 flex items-center gap-8">
                                     <div className="w-16 h-16 bg-white rounded-3xl flex items-center justify-center text-indigo-600 shadow-sm text-2xl font-black ring-4 ring-indigo-100/50">
                                         ✓
@@ -350,26 +350,26 @@ const PlanTrip = () => {
 
                     {/* Controls */}
                     <div className="mt-16 pt-10 border-t border-slate-100 flex flex-col-reverse sm:flex-row items-center justify-between gap-6">
-                        <button 
-                            type="button" 
-                            onClick={prevStep} 
+                        <button
+                            type="button"
+                            onClick={prevStep}
                             disabled={step === 1}
                             className={`flex items-center gap-3 text-slate-400 font-black text-[10px] uppercase tracking-[0.3em] transition-all hover:text-slate-900 disabled:opacity-0`}
                         >
                             <FiArrowLeft /> Previous Phase
                         </button>
-                        
+
                         {step < 4 ? (
-                            <button 
-                                type="button" 
+                            <button
+                                type="button"
                                 onClick={nextStep}
                                 className="btn-primary w-full sm:w-auto !py-5 shadow-2xl"
                             >
                                 <span>Proceed</span> <FiArrowRight />
                             </button>
                         ) : (
-                            <button 
-                                type="button" 
+                            <button
+                                type="button"
                                 onClick={handleSubmit}
                                 className="btn-primary w-full sm:w-auto !bg-indigo-600 !py-5 shadow-2xl ring-8 ring-indigo-50"
                             >

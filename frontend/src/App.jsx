@@ -22,6 +22,7 @@ import AdminLogin from './pages/AdminLogin';
 import MapPortal from './pages/MapPortal';
 import AgencyPortal from './pages/AgencyPortal';
 import ChatBot from './components/ChatBot';
+import BudgetCalculator from './pages/BudgetCalculator';
 
 const ProtectedRoute = ({ children }) => {
     const { user, loading } = useAuth();
@@ -45,6 +46,7 @@ function App() {
             <main className={`flex-grow ${!isAdminPage ? 'pt-0' : ''}`}>
                 <Routes>
                     <Route path="/" element={<Home />} />
+                    <Route path="/budget" element={<BudgetCalculator />} />
                     <Route path="/explore" element={<Explore />} />
                     <Route path="/agencies" element={<AgencyPortal />} />
                     <Route path="/destination/:id" element={<DestinationDetail />} />
