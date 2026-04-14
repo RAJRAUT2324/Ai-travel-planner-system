@@ -1,17 +1,43 @@
 /**
  * DestinationCard — Ultra-premium glassmorphic card for destination discovery.
+ * Fallback images cycle through a curated pool of 5 travel photos so every
+ * card looks distinct even when GridFS images are not available.
  */
 
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { FiMapPin, FiArrowRight } from 'react-icons/fi';
 
+/** Pool of 5 distinct, high-quality travel destination images from Unsplash */
+const FALLBACK_IMAGES = [
+    'https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?w=800&h=600&fit=crop',  // Mountain lake
+    'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&h=600&fit=crop',  // Snowy peaks
+    'https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?w=800&h=600&fit=crop',  // Beach paradise
+    'https://images.unsplash.com/photo-1552832230-c0197dd311b5?w=800&h=600&fit=crop',  // Colosseum Rome
+    'https://images.unsplash.com/photo-1533929736458-ca588d08c8be?w=800&h=600&fit=crop',  // City skyline lights
+];
+
+/**
+ * Pick a fallback image deterministically from the pool based on the
+ * destination id or name — same destination always gets the same image.
+ */
+const getFallbackImage = (id = '', name = '') => {
+    const seed = `${id}${name}`;
+    let hash = 0;
+    for (let i = 0; i < seed.length; i++) {
+        hash = (hash * 31 + seed.charCodeAt(i)) & 0xffff;
+    }
+    return FALLBACK_IMAGES[hash % FALLBACK_IMAGES.length];
+};
+
 const DestinationCard = ({ destination, index = 0 }) => {
     const { _id, name, city, country, budget_min, budget_max, tags, image_ids, best_season } = destination;
 
+    const fallback = getFallbackImage(_id, name);
+
     const imageUrl = image_ids?.length > 0
         ? `/api/destinations/image/${image_ids[0]}`
-        : 'https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=800&h=600&fit=crop';
+        : fallback;
 
     return (
         <motion.div
@@ -29,7 +55,10 @@ const DestinationCard = ({ destination, index = 0 }) => {
                             alt={name}
                             className="w-full h-full object-cover grayscale-[20%] group-hover:grayscale-0 group-hover:scale-110 transition-all duration-700"
                             onError={(e) => {
-                                e.target.src = 'https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=800&h=600&fit=crop';
+                                // On load error fall back to the pool image for this card
+                                if (e.target.src !== fallback) {
+                                    e.target.src = fallback;
+                                }
                             }}
                         />
                         <div className="absolute inset-0 bg-gradient-to-t from-white via-white/20 to-transparent" />
@@ -74,3 +103,4 @@ const DestinationCard = ({ destination, index = 0 }) => {
 };
 
 export default DestinationCard;
+
