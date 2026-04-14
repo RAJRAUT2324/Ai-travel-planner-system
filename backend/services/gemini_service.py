@@ -202,3 +202,127 @@ Respond with ONLY valid JSON:
         return {"success": True, "data": json.loads(result["text"])}
     except json.JSONDecodeError:
         return {"success": False, "error": "Failed to parse AI suggestion"}
+
+
+# ─── Budget Plan Generation (uses Groq, never Gemini) ────────────────────
+
+GROQ_API_URL = "https://api.groq.com/openai/v1/chat/completions"
+
+
+def _call_groq_budget(prompt: str) -> dict:
+    """Make a direct HTTP request to Groq API for budget generation.
+    Uses BUDGET_API_KEY with fallback to GROQ_API_KEY."""
+
+    key = Config.BUDGET_API_KEY or Config.GROQ_API_KEY
+    if not key:
+        return {
+            "success": False,
+            "error": "No Groq API key found. Set BUDGET_API_KEY or GROQ_API_KEY in your .env file."
+        }
+
+    headers = {
+        "Content-Type": "application/json",
+        "Authorization": f"Bearer {key}"
+    }
+
+    payload = {
+        "model": "llama-3.1-8b-instant",
+        "messages": [{"role": "user", "content": prompt}],
+        "temperature": 0.3,
+        "max_tokens": 3500,
+        "response_format": {"type": "json_object"}
+    }
+
+    try:
+        response = requests.post(GROQ_API_URL, headers=headers, json=payload, timeout=30)
+
+        if response.status_code == 429:
+            return {"success": False, "error": "Groq API rate limit hit. Please wait a moment and try again."}
+
+        if response.status_code != 200:
+            error_msg = response.json().get("error", {}).get("message", f"API error {response.status_code}")
+            return {"success": False, "error": f"Groq API error: {error_msg}"}
+
+        data = response.json()
+        text = data["choices"][0]["message"]["content"].strip()
+        return {"success": True, "text": text}
+
+    except requests.exceptions.Timeout:
+        return {"success": False, "error": "Groq API timeout. Please try again."}
+    except Exception as e:
+        return {"success": False, "error": f"Budget AI service error: {str(e)}"}
+
+
+def generate_budget_plan(source: str, destination: str, total_budget: float,
+                         currency: str, duration: int, persons: int,
+                         travel_party: str, accommodation: str,
+                         dietary_preference: str) -> dict:
+    """Generate a structured, per-person, day-by-day budget breakdown using Groq AI."""
+
+    currency_symbols = {
+        "INR": "₹", "USD": "$", "EUR": "€", "GBP": "£",
+        "JPY": "¥", "AED": "د.إ", "SGD": "S$", "THB": "฿"
+    }
+    sym = currency_symbols.get(currency, currency)
+
+    origin_note = f"from {source} to {destination}" if source else f"at {destination}"
+
+    prompt = f"""You are a travel budget expert. Create a detailed budget plan for a trip {origin_note}.
+Total budget: {sym}{total_budget} {currency} for {persons} person(s), {duration} day(s).
+Party type: {travel_party}. Accommodation: {accommodation}. Diet: {dietary_preference}.
+
+Respond with ONLY valid JSON in this EXACT structure:
+{{
+  "trip_tier": "budget|mid-range|premium",
+  "destination": "{destination}",
+  "source": "{source or 'N/A'}",
+  "currency": "{currency}",
+  "currency_symbol": "{sym}",
+  "total_budget": {total_budget},
+  "persons": {persons},
+  "duration": {duration},
+  "per_day_per_person": <number>,
+  "budget_warning": "<string or empty>",
+  "suggested_min_budget": <number or null>,
+  "allocation": [
+    {{"category":"Accommodation","amount":<number>,"percentage":<number>}},
+    {{"category":"Food & Dining","amount":<number>,"percentage":<number>}},
+    {{"category":"Transport","amount":<number>,"percentage":<number>}},
+    {{"category":"Activities","amount":<number>,"percentage":<number>}},
+    {{"category":"Shopping","amount":<number>,"percentage":<number>}},
+    {{"category":"Emergency Buffer","amount":<number>,"percentage":<number>}},
+    {{"category":"Miscellaneous","amount":<number>,"percentage":<number>}}
+  ],
+  "daily_plan": [
+    {{
+      "day": 1,
+      "focus": "<day theme>",
+      "daily_total": <number>,
+      "items": [
+        {{"description":"<string>","category":"<string>","cost":<number>}}
+      ]
+    }}
+  ],
+  "saving_tips": ["<string>","<string>","<string>","<string>"],
+  "best_value_experiences": [
+    {{"activity":"<string>","cost":<number>,"description":"<string>"}}
+  ],
+  "travel_mode_costs": [
+    {{"mode":"Car/Cab","emoji":"🚗","cost_one_way":<number>,"duration_hrs":"<string>","note":"<string>"}},
+    {{"mode":"Bus","emoji":"🚌","cost_one_way":<number>,"duration_hrs":"<string>","note":"<string>"}},
+    {{"mode":"Train","emoji":"🚂","cost_one_way":<number>,"duration_hrs":"<string>","note":"<string>"}},
+    {{"mode":"Flight","emoji":"✈️","cost_one_way":<number>,"duration_hrs":"<string>","note":"<string>"}}
+  ],
+  "fx_note": "<exchange rate context if currency is INR and destination is international, else empty string>"
+}}
+Rules: Emergency Buffer must be at least 8% of total. All amounts in {currency}. Scale costs for {persons} person(s). travel_mode_costs should show realistic one-way per-person prices from {source or destination} to {destination}. If source is empty, show local transport options at {destination}. Keep response compact."""
+
+    result = _call_groq_budget(prompt)
+    if not result.get("success"):
+        return result
+
+    try:
+        budget_data = json.loads(result["text"])
+        return {"success": True, "budget": budget_data}
+    except json.JSONDecodeError as e:
+        return {"success": False, "error": f"Failed to parse AI response: {str(e)}"}

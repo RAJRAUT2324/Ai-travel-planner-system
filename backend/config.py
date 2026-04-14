@@ -35,6 +35,9 @@ class Config:
     # Groq API
     GROQ_API_KEY = os.getenv("GROQ_API_KEY", "")
 
+    # Budget API (dedicated Groq key for budget generation)
+    BUDGET_API_KEY = os.getenv("BUDGET_API_KEY", "")
+
     # Weather API
     WEATHER_API_KEY = os.getenv("WEATHER_API_KEY", "")
 
