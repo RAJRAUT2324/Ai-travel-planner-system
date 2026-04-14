@@ -69,14 +69,14 @@ const Navbar = () => {
                         {/* Desktop Actions */}
                         <div className="hidden lg:flex items-center gap-4">
                             {user ? (
-                                <div className="flex items-center gap-2 p-1.5 bg-slate-100 rounded-2xl border border-slate-200">
-                                    {isAdmin && (
-                                        <Link to="/admin" className="p-3 text-rose-500 hover:bg-white rounded-xl transition-all shadow-sm" title="Admin Dashboard">
-                                            <FiBarChart2 size={20} />
-                                        </Link>
-                                    )}
+                                <div className="flex items-center gap-2 p-1.5 bg-slate-50/50 rounded-2xl border border-slate-200/50 backdrop-blur-md">
+                                    <Link to="/admin/login" className="flex items-center gap-2 px-4 py-2 hover:bg-white rounded-xl transition-all shadow-sm group">
+                                        <FiBarChart2 className="text-rose-500 group-hover:scale-110 transition-transform" />
+                                        <span className="text-sm font-bold text-slate-700">Admin</span>
+                                    </Link>
+                                    <div className="w-[1px] h-6 bg-slate-200 mx-1" />
                                     <Link to="/profile" className="flex items-center gap-2 px-4 py-2 hover:bg-white rounded-xl transition-all shadow-sm">
-                                        <div className="w-8 h-8 rounded-lg bg-indigo-600 flex items-center justify-center text-white text-xs font-bold uppercase">
+                                        <div className="w-8 h-8 rounded-lg bg-indigo-600 flex items-center justify-center text-white text-xs font-bold uppercase shadow-lg shadow-indigo-500/20">
                                             {user.name[0]}
                                         </div>
                                         <span className="text-sm font-bold text-slate-700">{user.name.split(' ')[0]}</span>
@@ -87,6 +87,7 @@ const Navbar = () => {
                                 </div>
                             ) : (
                                 <div className="flex items-center gap-4">
+                                    <Link to="/admin/login" className="text-sm font-bold text-rose-500 hover:text-rose-600 py-2 px-4 rounded-xl hover:bg-rose-50 transition-all">Admin Gateway</Link>
                                     <Link to="/login" className="text-sm font-bold text-slate-600 hover:text-slate-900">Sign In</Link>
                                     <Link to="/register" className="btn-primary !py-3 !px-6 group">
                                         <span>Start Experience</span>

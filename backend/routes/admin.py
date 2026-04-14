@@ -52,4 +52,26 @@ def init_admin_routes(user_model, destination_model, review_model,
         users = user_model.get_all_users()
         return jsonify({"users": users})
 
+    @admin_bp.route("/itineraries", methods=["GET"])
+    @admin_required
+    def get_itineraries():
+        """Get all itineraries across the platform."""
+        data = itinerary_model.get_all() # Assume this exists or add to model
+        return jsonify({"itineraries": data})
+
+    @admin_bp.route("/destinations", methods=["GET"])
+    @admin_required
+    def get_destinations():
+        """Get all destinations in the system."""
+        # Use existing page=1, limit=100 from model's get_all
+        result = destination_model.get_all(limit=100)
+        return jsonify({"destinations": result.get("destinations", [])})
+
+    @admin_bp.route("/reviews", methods=["GET"])
+    @admin_required
+    def get_reviews():
+        """Get all moderated reviews."""
+        data = review_model.get_all()
+        return jsonify({"reviews": data})
+
     return admin_bp

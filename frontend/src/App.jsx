@@ -2,7 +2,7 @@
  * App — main application with React Router.
  */
 
-import { Routes, Route, Navigate } from 'react-router-dom';
+import { Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useAuth } from './context/AuthContext';
@@ -18,6 +18,7 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 import Profile from './pages/Profile';
 import AdminDashboard from './pages/AdminDashboard';
+import AdminLogin from './pages/AdminLogin';
 import MapPortal from './pages/MapPortal';
 import ChatBot from './components/ChatBot';
 
@@ -30,14 +31,17 @@ const ProtectedRoute = ({ children }) => {
 const AdminRoute = ({ children }) => {
     const { user, isAdmin, loading } = useAuth();
     if (loading) return null;
-    return user && isAdmin ? children : <Navigate to="/" />;
+    return user && isAdmin ? children : <Navigate to="/admin/login" />;
 };
 
 function App() {
+    const { pathname } = useLocation();
+    const isAdminPage = pathname.startsWith('/admin');
+
     return (
         <div className="min-h-screen flex flex-col bg-gray-50">
-            <Navbar />
-            <main className="flex-grow">
+            {!isAdminPage && <Navbar />}
+            <main className={`flex-grow ${!isAdminPage ? 'pt-0' : ''}`}>
                 <Routes>
                     <Route path="/" element={<Home />} />
                     <Route path="/explore" element={<Explore />} />
@@ -56,12 +60,13 @@ function App() {
                     <Route path="/admin" element={
                         <AdminRoute><AdminDashboard /></AdminRoute>
                     } />
+                    <Route path="/admin/login" element={<AdminLogin />} />
                     <Route path="/map/:id?" element={
                         <ProtectedRoute><MapPortal /></ProtectedRoute>
                     } />
                 </Routes>
             </main>
-            <Footer />
+            {!isAdminPage && <Footer />}
             <ChatBot />
             <ToastContainer position="bottom-right" theme="colored" />
         </div>

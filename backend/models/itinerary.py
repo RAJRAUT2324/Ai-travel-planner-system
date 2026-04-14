@@ -66,3 +66,33 @@ class ItineraryModel:
     def count(self) -> int:
         """Return total itinerary count."""
         return self.collection.count_documents({})
+
+    def get_all(self, limit: int = 50) -> list:
+        """Get all itineraries with user and destination info."""
+        pipeline = [
+            {"$lookup": {
+                "from": "users",
+                "localField": "user_id",
+                "foreignField": "_id",
+                "as": "user",
+            }},
+            {"$unwind": {"path": "$user", "preserveNullAndEmptyArrays": True}},
+            {"$lookup": {
+                "from": "destinations",
+                "localField": "destination_id",
+                "foreignField": "_id",
+                "as": "destination",
+            }},
+            {"$unwind": {"path": "$destination", "preserveNullAndEmptyArrays": True}},
+            {"$project": {
+                "_id": {"$toString": "$_id"},
+                "created_at": 1,
+                "user_name": "$user.name",
+                "destination_name": { "$ifNull": ["$destination.name", "$plan_data.destination_name"] },
+                "total_cost": "$plan_data.total_estimated_cost",
+                "duration": "$form_input.duration",
+            }},
+            {"$sort": {"created_at": -1}},
+            {"$limit": limit}
+        ]
+        return list(self.collection.aggregate(pipeline))

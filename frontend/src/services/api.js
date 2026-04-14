@@ -83,6 +83,9 @@ export const adminAPI = {
     getPopularTags: () => API.get('/admin/analytics/tags'),
     getRecentActivity: () => API.get('/admin/analytics/activity'),
     getUsers: () => API.get('/admin/users'),
+    getItineraries: () => API.get('/admin/itineraries'),
+    getDestinations: () => API.get('/admin/destinations'),
+    getReviews: () => API.get('/admin/reviews'),
 };
 
 // ─── Chat ────────────────────────────────────────────
