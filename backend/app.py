@@ -29,6 +29,7 @@ from routes.itinerary import init_itinerary_routes
 from routes.weather import init_weather_routes
 from routes.admin import init_admin_routes
 from routes.chat import chat_bp
+from routes.budget import budget_bp
 
 
 def create_app():
@@ -36,8 +37,14 @@ def create_app():
     app = Flask(__name__)
     app.config.from_object(Config)
 
-    # CORS — allow frontend
-    CORS(app, resources={r"/api/*": {"origins": ["*"]}})
+    # Robust CORS configuration for production deployment
+    CORS(app, resources={
+        r"/api/*": {
+            "origins": ["*"],
+            "methods": ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+            "allow_headers": ["Content-Type", "Authorization"]
+        }
+    })
 
     # MongoDB connection
     client = MongoClient(Config.MONGO_URI)
@@ -80,6 +87,7 @@ def create_app():
         url_prefix="/api/admin"
     )
     app.register_blueprint(chat_bp, url_prefix="/api/agent")
+    app.register_blueprint(budget_bp, url_prefix="/api/budget")
 
     # Health check endpoint
     @app.route("/api/health")
