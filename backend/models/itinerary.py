@@ -63,6 +63,16 @@ class ItineraryModel:
                 doc["destination_id"] = str(doc["destination_id"])
         return doc
 
+    def delete(self, itinerary_id: str) -> bool:
+        """Delete an itinerary by ID."""
+        if not itinerary_id or not isinstance(itinerary_id, str) or len(itinerary_id) != 24:
+            return False
+        try:
+            result = self.collection.delete_one({"_id": ObjectId(itinerary_id)})
+            return result.deleted_count > 0
+        except:
+            return False
+
     def count(self) -> int:
         """Return total itinerary count."""
         return self.collection.count_documents({})

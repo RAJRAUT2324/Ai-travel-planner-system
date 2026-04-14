@@ -134,6 +134,30 @@ class DestinationModel:
         """Return total destination count."""
         return self.collection.count_documents({})
 
+    def toggle_featured(self, dest_id: str) -> dict:
+        """Toggle the is_featured flag on a destination."""
+        if not dest_id or not isinstance(dest_id, str) or len(dest_id) != 24:
+            return None
+        try:
+            dest = self.find_by_id(dest_id)
+            if not dest:
+                return None
+            new_status = not dest.get("is_featured", False)
+            self.collection.update_one(
+                {"_id": ObjectId(dest_id)},
+                {"$set": {"is_featured": new_status}}
+            )
+            return {"is_featured": new_status, "name": dest.get("name")}
+        except:
+            return None
+
+    def get_featured(self) -> list:
+        """Return all featured destinations."""
+        destinations = list(self.collection.find({"is_featured": True}))
+        for d in destinations:
+            d["_id"] = str(d["_id"])
+        return destinations
+
     def get_all_simple(self) -> list:
         """Get all destinations with minimal fields for dropdowns."""
         destinations = self.collection.find(

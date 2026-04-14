@@ -57,6 +57,10 @@ def init_auth_routes(user_model):
         if not user or not check_password(password, user["password"]):
             return jsonify({"error": "Invalid email or password"}), 401
 
+        # Check if user is banned
+        if user.get("is_banned", False):
+            return jsonify({"error": "Your account has been suspended. Contact support."}), 403
+
         token = generate_token(str(user["_id"]), user.get("role", "user"))
 
         return jsonify({

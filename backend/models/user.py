@@ -47,6 +47,33 @@ class UserModel:
         )
         return result.modified_count > 0
 
+    def delete_user(self, user_id: str) -> bool:
+        """Delete a user by ID."""
+        result = self.collection.delete_one({"_id": ObjectId(user_id)})
+        return result.deleted_count > 0
+
+    def toggle_ban(self, user_id: str) -> dict:
+        """Toggle the is_banned field on a user. Returns updated user."""
+        user = self.find_by_id(user_id)
+        if not user:
+            return None
+        new_status = not user.get("is_banned", False)
+        self.collection.update_one(
+            {"_id": ObjectId(user_id)},
+            {"$set": {"is_banned": new_status}}
+        )
+        return {"is_banned": new_status}
+
+    def set_role(self, user_id: str, role: str) -> bool:
+        """Set the role of a user (user/admin)."""
+        if role not in ("user", "admin"):
+            return False
+        result = self.collection.update_one(
+            {"_id": ObjectId(user_id)},
+            {"$set": {"role": role}}
+        )
+        return result.modified_count > 0
+
     def count_users(self) -> int:
         """Return total user count."""
         return self.collection.count_documents({})

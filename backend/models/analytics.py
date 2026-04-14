@@ -67,3 +67,20 @@ class AnalyticsModel:
             if e.get("user_id"):
                 e["user_id"] = str(e["user_id"])
         return events
+
+    def get_daily_counts(self, days: int = 30) -> list:
+        """Get daily event counts for the last N days, grouped by event_type."""
+        cutoff = datetime.now(timezone.utc) - timedelta(days=days)
+        pipeline = [
+            {"$match": {"timestamp": {"$gte": cutoff}}},
+            {"$group": {
+                "_id": {
+                    "date": {"$dateToString": {"format": "%Y-%m-%d", "date": "$timestamp"}},
+                    "event_type": "$event_type"
+                },
+                "count": {"$sum": 1}
+            }},
+            {"$sort": {"_id.date": 1}},
+        ]
+        results = list(self.collection.aggregate(pipeline))
+        return [{"date": r["_id"]["date"], "event_type": r["_id"]["event_type"], "count": r["count"]} for r in results]
